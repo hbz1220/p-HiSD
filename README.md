@@ -1,29 +1,36 @@
 # p-HiSD
 
-Code for the numerical experiments in the paper
-
+Code for the numerical experiments in the paper  
 **Preconditioned High-Index Saddle Dynamics for Computing Saddle Points**.
 
-The folders under `code/` follow the numbering of Section 7 in the revised manuscript.
+## Repository Structure
+
+The code is organized according to Section 7 of the paper. Each folder contains the scripts and data needed to reproduce the corresponding numerical experiment.
 
 ```text
 code/
-├── 7.1/      # Quadratic model -> Reproduces Figure 1
-├── 7.2.1/    # Butterfly function -> Reproduces Figure 2
-├── 7.2.2/    # Modified Mueller--Brown potential -> Reproduces Table 2
-├── 7.3/      # Modified Rosenbrock problem -> Reproduces Figure 3
-├── 7.4/      # Stiff coupled bistable chain -> Reproduces Figure 4 & Performance Table
-├── 7.5.1/    # 1D semilinear elliptic problem -> Reproduces Figure 5
-├── 7.5.2/    # 2D Lane--Emden-type elliptic equation -> Reproduces Table 3 (a & b)
-├── 7.5.3/    # Allen--Cahn equation -> Reproduces Figure 6
-├── 7.6/      # Non-convex optimal control problem -> Reproduces Figure 7
-└── utils/    # Shared helper routines
+├── 7.1/          # Quadratic model; reproduces Figure 1
+├── 7.2/          # Two-dimensional test problems
+│   ├── 7.2.1/    # Butterfly function; reproduces Figure 2
+│   └── 7.2.2/    # Modified Mueller--Brown potential; reproduces Table 2
+├── 7.3/          # Modified Rosenbrock problem; reproduces Figure 3
+├── 7.4/          # Stiff coupled bistable chain; reproduces Figure 4 and the performance table
+├── 7.5/          # Laplacian-dominated PDE discretizations
+│   ├── 7.5.1/    # 1D semilinear elliptic problem; reproduces Figure 5
+│   ├── 7.5.2/    # 2D Lane--Emden-type elliptic equation; reproduces Table 3(a) and Table 3(b)
+│   └── 7.5.3/    # Allen--Cahn equation; reproduces Figure 6
+├── 7.6/          # Non-convex optimal control problem; reproduces Figure 7
+└── utils/        # Shared helper routines
 
-figures/      # Generated PDF figures
+figures/          # Generated PDF figures
 ```
 
 Sections `7.5.1`--`7.5.3` correspond to the subsection
 *Laplacian-dominated PDE discretizations*.
+
+Some folders contain precomputed `.csv`, `.npz`, or `.mat` files. These files are
+included either because they are used by the plotting scripts or because they allow
+the reported figures and tables to be regenerated without rerunning all experiments.
 
 ## MATLAB and Python
 
@@ -41,9 +48,9 @@ MATLAB run script -> CSV/data files -> Python plotting script -> PDF figure
 
 ## Requirements
 
-The code was developed and tested using the following software versions. While newer versions will likely work, using these specific versions ensures maximum reproducibility:
+The code was developed and tested using the following software versions. While newer versions will likely work, using similar versions is recommended for reproducibility:
 
-* **MATLAB**: R2025b (Required for experiments where the main computation script is `run.m`, particularly for incomplete Cholesky factorization).
+* **MATLAB**: tested with MATLAB R2025b (Required for experiments where the main computation script is `run.m`, particularly for incomplete Cholesky factorization).
 * **Python**: 3.13.5
   * `numpy` (v2.3.5)
   * `scipy` (v1.17.0)
@@ -67,7 +74,7 @@ For experiments with MATLAB-generated data, run the MATLAB script first and then
 the plotting script:
 
 ```bash
-cd code/7.5.1
+cd code/7.5/7.5.1
 matlab -batch "run"
 python fig.py
 ```
@@ -84,7 +91,7 @@ Depending on the experiment, numerical results are output in different formats t
 
 - **Table 3 (Experiment 7.5.2)**  
   Numerical data for mesh refinement tests are saved as `.npz` and `.csv` files  
-  in the `code/7.5.2/` directory.
+  in the `code/7.5/7.5.2/` directory.
 
 ## Reproducibility
 

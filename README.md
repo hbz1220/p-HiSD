@@ -8,15 +8,15 @@ The folders under `code/` follow the numbering of Section 7 in the revised manus
 
 ```text
 code/
-├── 7.1/      # Quadratic model
-├── 7.2.1/    # Butterfly function
-├── 7.2.2/    # Modified Mueller--Brown potential
-├── 7.3/      # Modified Rosenbrock problem
-├── 7.4/      # Stiff coupled bistable chain
-├── 7.5.1/    # 1D semilinear elliptic problem
-├── 7.5.2/    # 2D Lane--Emden-type elliptic equation
-├── 7.5.3/    # Allen--Cahn equation
-├── 7.6/      # Non-convex optimal control problem
+├── 7.1/      # Quadratic model -> Reproduces Figure 1
+├── 7.2.1/    # Butterfly function -> Reproduces Figure 2
+├── 7.2.2/    # Modified Mueller--Brown potential -> Reproduces Table 2
+├── 7.3/      # Modified Rosenbrock problem -> Reproduces Figure 3
+├── 7.4/      # Stiff coupled bistable chain -> Reproduces Figure 4 & Performance Table
+├── 7.5.1/    # 1D semilinear elliptic problem -> Reproduces Figure 5
+├── 7.5.2/    # 2D Lane--Emden-type elliptic equation -> Reproduces Table 3 (a & b)
+├── 7.5.3/    # Allen--Cahn equation -> Reproduces Figure 6
+├── 7.6/      # Non-convex optimal control problem -> Reproduces Figure 7
 └── utils/    # Shared helper routines
 
 figures/      # Generated PDF figures
@@ -41,13 +41,14 @@ MATLAB run script -> CSV/data files -> Python plotting script -> PDF figure
 
 ## Requirements
 
-Python dependencies:
+The code was developed and tested using the following software versions. While newer versions will likely work, using these specific versions ensures maximum reproducibility:
 
-```text
-numpy
-scipy
-matplotlib
-```
+* **MATLAB**: R2025b (Required for experiments where the main computation script is `run.m`, particularly for incomplete Cholesky factorization).
+* **Python**: 3.13.5
+  * `numpy` (v2.3.5)
+  * `scipy` (v1.17.0)
+  * `matplotlib` (v3.10.8)
+  * `scikit-sparse` (optional, for sparse linear algebra)
 
 Some scripts may use optional sparse linear algebra packages such as
 `scikit-sparse` when available. MATLAB is required for experiments whose main

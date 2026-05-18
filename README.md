@@ -72,7 +72,19 @@ matlab -batch "run"
 python fig.py
 ```
 
-Generated figures are saved to the repository-level `figures/` directory.
+## Where to Find the Results
+
+Depending on the experiment, numerical results are output in different formats to match the paper:
+
+- **Figures (Most experiments)**  
+  Generated PDF figures are automatically saved to the top-level `figures/` directory.
+
+- **Table 2 (Experiment 7.2.2)**  
+  The hit statistics are printed directly to the console after the script finishes.
+
+- **Table 3 (Experiment 7.5.2)**  
+  Numerical data for mesh refinement tests are saved as `.npz` and `.csv` files  
+  in the `code/7.5.2/` directory.
 
 ## Reproducibility
 

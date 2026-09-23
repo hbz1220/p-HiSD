@@ -1,0 +1,174 @@
+{
+  "agreement": {
+    "final_state_hL2_distance": 2.2819105857299606e-08,
+    "threshold": 2e-06
+  },
+  "decision": "PASS",
+  "initial_state": {
+    "negative_mode_fraction_of_s_plus": 0.02,
+    "seed": 20260906,
+    "smooth_mode_fraction_of_s_plus": 0.01
+  },
+  "methods": {
+    "hisd": {
+      "all_repetitions_certified": true,
+      "endpoint_certification_status": "PASS",
+      "final_Morse_index": 1,
+      "final_frame_residual": 9.70122869067785e-09,
+      "final_state_residual": 4.336286578886769e-07,
+      "median_t_total": 107.59213554207236,
+      "outer_updates": 48322,
+      "parameters": {
+        "J": 5,
+        "eta": 0.0005,
+        "tau": 0.00025
+      },
+      "repetitions": 3,
+      "representative_run_id": "hisd_seed20260906_r0",
+      "representative_t_total": 107.59213554207236,
+      "representative_timing": {
+        "accounting_PASS": true,
+        "accounting_relative_residual": 0.0,
+        "accounting_residual": 0.0,
+        "accounting_sum": 107.59213554207236,
+        "t_M_apply": 0.0,
+        "t_M_apply_solve": 0.0,
+        "t_M_refresh": 0.0,
+        "t_M_setup": 0.0,
+        "t_M_setup_update": 0.0,
+        "t_M_solve": 0.0,
+        "t_eigensolver": 79.4260143819265,
+        "t_eigensolver_init": 0.2263023330597207,
+        "t_eigensolver_init_net": 0.2263023330597207,
+        "t_eigensolver_nested_M": 0.0,
+        "t_eigensolver_net": 79.4260143819265,
+        "t_eigensolver_update": 79.19971204886679,
+        "t_eigensolver_update_net": 79.19971204886679,
+        "t_endpoint_certification": 0.06007362494710833,
+        "t_other": 28.104538327199407,
+        "t_problem_setup": 0.0015092079993337393,
+        "t_total": 107.59213554207236
+      },
+      "smallest_six_eigenvalues": [
+        -0.4336446820140366,
+        0.44064374357602315,
+        5.281545892322735,
+        5.281552461174856,
+        7.271608613042007,
+        7.271608662529407
+      ],
+      "status": "CONVERGED",
+      "work_counters": {
+        "HVP_vector_equivalents": 291451,
+        "M_apply_RHS_count": 0,
+        "M_solve_RHS_count": 0,
+        "analytic_HVP_vector_equivalents": 290574,
+        "endpoint_sparse_HVP_vector_equivalents": 877,
+        "gradient_evaluations": 48323,
+        "preconditioner_refresh_update_count": 0,
+        "preconditioner_setup_count": 0,
+        "scalar_block_M_apply_RHS_count": 0,
+        "scalar_block_M_solve_RHS_count": 0
+      }
+    },
+    "p_hisd": {
+      "all_repetitions_certified": true,
+      "endpoint_certification_status": "PASS",
+      "final_Morse_index": 1,
+      "final_frame_residual": 5.0278322908992074e-09,
+      "final_state_residual": 4.337179081309133e-07,
+      "median_t_total": 1.8917293749982491,
+      "metric": "M=I_5 tensor (A_h+I_m), fixed for each p-HiSD run",
+      "outer_updates": 570,
+      "parameters": {
+        "J": 5,
+        "eta": 0.25,
+        "tau": 0.1
+      },
+      "repetitions": 3,
+      "representative_run_id": "p_hisd_seed20260906_r0",
+      "representative_t_total": 1.8917293749982491,
+      "representative_timing": {
+        "accounting_PASS": true,
+        "accounting_relative_residual": 0.0,
+        "accounting_residual": 0.0,
+        "accounting_sum": 1.8917293749982491,
+        "t_M_apply": 0.13903898117132485,
+        "t_M_apply_solve": 0.5721150282770395,
+        "t_M_refresh": 0.0,
+        "t_M_setup": 0.0013557920465245843,
+        "t_M_setup_update": 0.0013557920465245843,
+        "t_M_solve": 0.4330760471057147,
+        "t_eigensolver": 1.3589918358484283,
+        "t_eigensolver_init": 0.02362237498164177,
+        "t_eigensolver_init_net": 0.01555646420456469,
+        "t_eigensolver_nested_M": 0.42949988576583564,
+        "t_eigensolver_net": 0.9294919500825927,
+        "t_eigensolver_update": 1.3353694608667865,
+        "t_eigensolver_update_net": 0.913935485878028,
+        "t_endpoint_certification": 0.05571462493389845,
+        "t_other": 0.3319180216640234,
+        "t_problem_setup": 0.001133957994170487,
+        "t_total": 1.8917293749982491
+      },
+      "smallest_six_eigenvalues": [
+        -0.4336446820138919,
+        0.44064374357630404,
+        5.28154591497942,
+        5.281552438517599,
+        7.271608631603161,
+        7.271608643969173
+      ],
+      "status": "CONVERGED",
+      "work_counters": {
+        "HVP_vector_equivalents": 4339,
+        "M_apply_RHS_count": 4085,
+        "M_solve_RHS_count": 4037,
+        "analytic_HVP_vector_equivalents": 3468,
+        "endpoint_sparse_HVP_vector_equivalents": 871,
+        "gradient_evaluations": 571,
+        "preconditioner_refresh_update_count": 0,
+        "preconditioner_setup_count": 1,
+        "scalar_block_M_apply_RHS_count": 20425,
+        "scalar_block_M_solve_RHS_count": 20185
+      }
+    }
+  },
+  "model": {
+    "A": -3900.9523809523807,
+    "B": 6400.0,
+    "C": 3500.0,
+    "L": 4e-11,
+    "N": 41,
+    "dofs": 7605,
+    "epsilon_bc": 0.1,
+    "h": 0.05,
+    "lambda_sq": 7.0,
+    "model_name": "Full-Q Landau-de Gennes"
+  },
+  "runtime": {
+    "cpu_model": "Apple M5",
+    "machine": "arm64",
+    "numpy": "2.4.1",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.5",
+    "scipy": "1.17.0",
+    "thread_policy": "single-thread"
+  },
+  "timing_protocol": {
+    "endpoint_certification_included_in_t_total": true,
+    "fast_repeats_total": 9,
+    "fast_threshold_seconds": 0.1,
+    "initial_repeats": 3,
+    "io_and_plotting_excluded": true,
+    "order_rng_seed": 6090603,
+    "printing_serialization_and_output_postprocessing_excluded": true,
+    "representative_selection": "Actual run sorted by (t_total, run_id) at index len(runs)//2; every decomposition bucket and work counter comes from that run.",
+    "scope": "Only the two frozen LDG methods and one accepted canonical U0; no new seeds/initial conditions.",
+    "seeds": [
+      20260906
+    ],
+    "single_thread_verified": true,
+    "t_total_definition": "Problem setup, preconditioner setup, initial frame/eigenspace, outer iterations, all M apply/solve operations, and endpoint certification."
+  }
+}

@@ -1,0 +1,977 @@
+{
+  "section": "7.5.3",
+  "timing_repeats": 3,
+  "unit": "seconds",
+  "retained_original_repetition": 1,
+  "T_total_includes_certification": false,
+  "component_counters_are_inclusive": true,
+  "definitions": {
+    "T_total": "Original printing-inclusive solver wall-clock: Standard starts before H_op/initial eigsh and ends after u_std_final copy; p-HiSD starts before Phase-1 metric construction and ends after u_p_final copy. Excludes startup, common construction/initialization, shared posthoc certification, plotting and file I/O; includes instrumentation overhead.",
+    "T_setup_update": "T_setup_phase1 + T_setup_phase2: original Phase-1 mu_bj/metric/CSC/factorization and actual Phase-2 Hessian/eig_min/sigma/shifted-metric/CSC/factorization. Standard is zero.",
+    "T_apply_solve": "T_apply + T_solve: original explicit metric matrix-vector applications and factor solves, including nested frame operations. Standard is zero.",
+    "T_eig": "T_eig_initial + T_eig_switch + T_eig_sigma + T_eig_update, including original frame HVP/projection/normalization and nested metric operations.",
+    "T_cert": "One shared original posthoc block: energy/differences/endpoint Hessians/five-eigenvalue calculations/Morse counting/comparison and endpoint residual diagnostics. The same shared time is copied to both method rows and lies outside both T_total values; do not add the two T_cert rows.",
+    "accounting": "Component counters are inclusive diagnostics and must not be summed to obtain T_total. Phase-2 sigma spectral work overlaps setup/update and eig; frame metric applications/solves overlap eig. Internal generalized eigsh metric work remains within eig. T_cert is one shared posthoc block repeated in both method rows; do not add its two rows.",
+    "iterations": "Recorded residual points; state_updates counts executed steps. Last historical residual may precede the final endpoint when the budget is exhausted.",
+    "switch_iteration": "Original zero-based loop index; Phase 2 stays frozen after the actual switch."
+  },
+  "run_policy": "Three fresh sequential Python processes; original run(), method order, native eigsh RNG, parameters and backend; no warm-up or tuning. Only repetition 1 writes the original NPZ/PDF.",
+  "unsuccessful_run_policy": "For unsuccessful methods, T_total is consumed wall-clock until termination, not time-to-solution.",
+  "native_reproducibility_checks": [
+    {
+      "repetition": 1,
+      "passed": true,
+      "rtol": 1e-10,
+      "atol": 1e-10,
+      "field_differences": {
+        "gnorms_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "gnorms_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "u_std_final": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "u_p_final": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "v_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "v_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "sigma": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eig_min": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "E_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "E_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "diff": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "l2_diff": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "linf_diff": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "rel_l2_diff": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eigs_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eigs_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "endpoint_residual_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "endpoint_residual_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.u_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.u_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.diff": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.X": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.Y": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.gnorms_std": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.gnorms_p": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.standard_x": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.standard_y": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.phisd_x": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.phisd_y": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "comparison": "Native independent eigsh streams; exact protocol/discrete results/counters; frame signs aligned only for comparison."
+    },
+    {
+      "repetition": 2,
+      "passed": true,
+      "rtol": 1e-10,
+      "atol": 1e-10,
+      "field_differences": {
+        "gnorms_std": {
+          "max_abs_difference": 1.9533786144165788e-08,
+          "raw_max_abs_difference": 1.9533786144165788e-08,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "gnorms_p": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "u_std_final": {
+          "max_abs_difference": 4.418687638008123e-14,
+          "raw_max_abs_difference": 4.418687638008123e-14,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "u_p_final": {
+          "max_abs_difference": 3.7010672304660375e-13,
+          "raw_max_abs_difference": 3.7010672304660375e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "v_std": {
+          "max_abs_difference": 1.0306512587821004e-13,
+          "raw_max_abs_difference": 1.0306512587821004e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "v_p": {
+          "max_abs_difference": 3.652633751016765e-14,
+          "raw_max_abs_difference": 3.652633751016765e-14,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "sigma": {
+          "max_abs_difference": 5.954958748333183e-13,
+          "raw_max_abs_difference": 5.954958748333183e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eig_min": {
+          "max_abs_difference": 5.9548881396667e-13,
+          "raw_max_abs_difference": 5.9548881396667e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "E_std": {
+          "max_abs_difference": 5.820766091346741e-11,
+          "raw_max_abs_difference": 5.820766091346741e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "E_p": {
+          "max_abs_difference": 5.093170329928398e-11,
+          "raw_max_abs_difference": 5.093170329928398e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "diff": {
+          "max_abs_difference": 3.2621821910439053e-13,
+          "raw_max_abs_difference": 3.2621821910439053e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "l2_diff": {
+          "max_abs_difference": 9.406073142592675e-12,
+          "raw_max_abs_difference": 9.406073142592675e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "linf_diff": {
+          "max_abs_difference": 3.233940892855003e-13,
+          "raw_max_abs_difference": 3.233940892855003e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "rel_l2_diff": {
+          "max_abs_difference": 1.3107256165850734e-13,
+          "raw_max_abs_difference": 1.3107256165850734e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eigs_std": {
+          "max_abs_difference": 6.830092047493963e-12,
+          "raw_max_abs_difference": 6.830092047493963e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eigs_p": {
+          "max_abs_difference": 5.7127635955112055e-12,
+          "raw_max_abs_difference": 5.7127635955112055e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "endpoint_residual_std": {
+          "max_abs_difference": 4.275262588415525e-12,
+          "raw_max_abs_difference": 4.275262588415525e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "endpoint_residual_p": {
+          "max_abs_difference": 1.4727545215367777e-13,
+          "raw_max_abs_difference": 1.4727545215367777e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.u_std": {
+          "max_abs_difference": 4.418687638008123e-14,
+          "raw_max_abs_difference": 4.418687638008123e-14,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.u_p": {
+          "max_abs_difference": 3.7010672304660375e-13,
+          "raw_max_abs_difference": 3.7010672304660375e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.diff": {
+          "max_abs_difference": 3.2621821910439053e-13,
+          "raw_max_abs_difference": 3.2621821910439053e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.X": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.Y": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.gnorms_std": {
+          "max_abs_difference": 1.9533786144165788e-08,
+          "raw_max_abs_difference": 1.9533786144165788e-08,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.gnorms_p": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.standard_x": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.standard_y": {
+          "max_abs_difference": 1.9533786144165788e-08,
+          "raw_max_abs_difference": 1.9533786144165788e-08,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.phisd_x": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.phisd_y": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "comparison": "Native independent eigsh streams; exact protocol/discrete results/counters; frame signs aligned only for comparison."
+    },
+    {
+      "repetition": 3,
+      "passed": true,
+      "rtol": 1e-10,
+      "atol": 1e-10,
+      "field_differences": {
+        "gnorms_std": {
+          "max_abs_difference": 4.133653419557959e-10,
+          "raw_max_abs_difference": 4.133653419557959e-10,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "gnorms_p": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "u_std_final": {
+          "max_abs_difference": 9.159339953157541e-16,
+          "raw_max_abs_difference": 9.159339953157541e-16,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "u_p_final": {
+          "max_abs_difference": 2.6961766153021927e-13,
+          "raw_max_abs_difference": 2.6961766153021927e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "v_std": {
+          "max_abs_difference": 3.1433189384699745e-15,
+          "raw_max_abs_difference": 3.1433189384699745e-15,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "v_p": {
+          "max_abs_difference": 4.022962518668294e-12,
+          "raw_max_abs_difference": 4.022962518668294e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "sigma": {
+          "max_abs_difference": 4.820616128498045e-12,
+          "raw_max_abs_difference": 4.820616128498045e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eig_min": {
+          "max_abs_difference": 4.820626360656048e-12,
+          "raw_max_abs_difference": 4.820626360656048e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "E_std": {
+          "max_abs_difference": 4.3655745685100555e-11,
+          "raw_max_abs_difference": 4.3655745685100555e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "E_p": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "diff": {
+          "max_abs_difference": 2.704919621621116e-13,
+          "raw_max_abs_difference": 2.704919621621116e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "l2_diff": {
+          "max_abs_difference": 7.801662094131245e-12,
+          "raw_max_abs_difference": 7.801662094131245e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "linf_diff": {
+          "max_abs_difference": 2.6865315527757616e-13,
+          "raw_max_abs_difference": 2.6865315527757616e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "rel_l2_diff": {
+          "max_abs_difference": 1.08715337079901e-13,
+          "raw_max_abs_difference": 1.08715337079901e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eigs_std": {
+          "max_abs_difference": 1.80648850574088e-11,
+          "raw_max_abs_difference": 1.80648850574088e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "eigs_p": {
+          "max_abs_difference": 1.0373923942097463e-11,
+          "raw_max_abs_difference": 1.0373923942097463e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "endpoint_residual_std": {
+          "max_abs_difference": 6.895776439233824e-13,
+          "raw_max_abs_difference": 6.895776439233824e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "endpoint_residual_p": {
+          "max_abs_difference": 2.3295885612450195e-12,
+          "raw_max_abs_difference": 2.3295885612450195e-12,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.u_std": {
+          "max_abs_difference": 9.159339953157541e-16,
+          "raw_max_abs_difference": 9.159339953157541e-16,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.u_p": {
+          "max_abs_difference": 2.6961766153021927e-13,
+          "raw_max_abs_difference": 2.6961766153021927e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.diff": {
+          "max_abs_difference": 2.704919621621116e-13,
+          "raw_max_abs_difference": 2.704919621621116e-13,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.X": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.Y": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.gnorms_std": {
+          "max_abs_difference": 4.133653419557959e-10,
+          "raw_max_abs_difference": 4.133653419557959e-10,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "npz.gnorms_p": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.standard_x": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.standard_y": {
+          "max_abs_difference": 4.133653419557959e-10,
+          "raw_max_abs_difference": 4.133653419557959e-10,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.phisd_x": {
+          "max_abs_difference": 0.0,
+          "raw_max_abs_difference": 0.0,
+          "exact": true,
+          "frame_sign": 1,
+          "passed": true
+        },
+        "plot.phisd_y": {
+          "max_abs_difference": 1.4551915228366852e-11,
+          "raw_max_abs_difference": 1.4551915228366852e-11,
+          "exact": false,
+          "frame_sign": 1,
+          "passed": true
+        }
+      },
+      "failures": [],
+      "comparison": "Native independent eigsh streams; exact protocol/discrete results/counters; frame signs aligned only for comparison."
+    }
+  ],
+  "methods": [
+    {
+      "method": "Standard HiSD",
+      "status": "max_iter",
+      "iterations": 2000000,
+      "timing_statistics": {
+        "T_total": {
+          "raw": [
+            539.9513593340525,
+            536.6156069579301,
+            545.4375791250495
+          ],
+          "median": 539.9513593340525,
+          "min": 536.6156069579301,
+          "max": 545.4375791250495
+        },
+        "T_setup_update": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_apply_solve": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_eig": {
+          "raw": [
+            404.3429916407913,
+            401.4431267667096,
+            405.35875216615386
+          ],
+          "median": 404.3429916407913,
+          "min": 401.4431267667096,
+          "max": 405.35875216615386
+        },
+        "T_cert": {
+          "raw": [
+            0.05704262503422797,
+            0.0611731669632718,
+            0.05892195797059685
+          ],
+          "median": 0.05892195797059685,
+          "min": 0.05704262503422797,
+          "max": 0.0611731669632718
+        },
+        "T_setup_phase1": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_setup_phase2": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_apply": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_solve": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_eig_initial": {
+          "raw": [
+            0.03093529201578349,
+            0.030912583926692605,
+            0.02979804202914238
+          ],
+          "median": 0.030912583926692605,
+          "min": 0.02979804202914238,
+          "max": 0.03093529201578349
+        },
+        "T_eig_switch": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_eig_sigma": {
+          "raw": [
+            0,
+            0,
+            0
+          ],
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_eig_update": {
+          "raw": [
+            404.3120563487755,
+            401.4122141827829,
+            405.3289541241247
+          ],
+          "median": 404.3120563487755,
+          "min": 401.4122141827829,
+          "max": 405.3289541241247
+        },
+        "T_cert_standard_spectrum": {
+          "raw": [
+            0.02874708396848291,
+            0.030583375017158687,
+            0.028385667013935745
+          ],
+          "median": 0.02874708396848291,
+          "min": 0.028385667013935745,
+          "max": 0.030583375017158687
+        },
+        "T_cert_phisd_spectrum": {
+          "raw": [
+            0.02736254094634205,
+            0.029591582948341966,
+            0.02971766598057002
+          ],
+          "median": 0.029591582948341966,
+          "min": 0.02736254094634205,
+          "max": 0.02971766598057002
+        }
+      }
+    },
+    {
+      "method": "two-stage p-HiSD",
+      "status": "converged",
+      "iterations": 175,
+      "timing_statistics": {
+        "T_total": {
+          "raw": [
+            0.37102950003463775,
+            0.3807389159919694,
+            0.364135832991451
+          ],
+          "median": 0.37102950003463775,
+          "min": 0.364135832991451,
+          "max": 0.3807389159919694
+        },
+        "T_setup_update": {
+          "raw": [
+            0.05194287502672523,
+            0.05011425097472966,
+            0.04854258394334465
+          ],
+          "median": 0.05011425097472966,
+          "min": 0.04854258394334465,
+          "max": 0.05194287502672523
+        },
+        "T_apply_solve": {
+          "raw": [
+            0.22510153206530958,
+            0.23440900491550565,
+            0.223772466997616
+          ],
+          "median": 0.22510153206530958,
+          "min": 0.223772466997616,
+          "max": 0.23440900491550565
+        },
+        "T_eig": {
+          "raw": [
+            0.30299911880865693,
+            0.3140680050710216,
+            0.30074724776204675
+          ],
+          "median": 0.30299911880865693,
+          "min": 0.30074724776204675,
+          "max": 0.3140680050710216
+        },
+        "T_cert": {
+          "raw": [
+            0.05704262503422797,
+            0.0611731669632718,
+            0.05892195797059685
+          ],
+          "median": 0.05892195797059685,
+          "min": 0.05704262503422797,
+          "max": 0.0611731669632718
+        },
+        "T_setup_phase1": {
+          "raw": [
+            0.012205042061395943,
+            0.008431166992522776,
+            0.008239291957579553
+          ],
+          "median": 0.008431166992522776,
+          "min": 0.008239291957579553,
+          "max": 0.012205042061395943
+        },
+        "T_setup_phase2": {
+          "raw": [
+            0.03973783296532929,
+            0.04168308398220688,
+            0.0403032919857651
+          ],
+          "median": 0.0403032919857651,
+          "min": 0.03973783296532929,
+          "max": 0.04168308398220688
+        },
+        "T_apply": {
+          "raw": [
+            0.019797375076450408,
+            0.020718343439511955,
+            0.01971633022185415
+          ],
+          "median": 0.019797375076450408,
+          "min": 0.01971633022185415,
+          "max": 0.020718343439511955
+        },
+        "T_solve": {
+          "raw": [
+            0.20530415698885918,
+            0.2136906614759937,
+            0.20405613677576184
+          ],
+          "median": 0.20530415698885918,
+          "min": 0.20405613677576184,
+          "max": 0.2136906614759937
+        },
+        "T_eig_initial": {
+          "raw": [
+            0.025574082974344492,
+            0.02549862500745803,
+            0.024353917106054723
+          ],
+          "median": 0.02549862500745803,
+          "min": 0.024353917106054723,
+          "max": 0.025574082974344492
+        },
+        "T_eig_switch": {
+          "raw": [
+            0.014943415997549891,
+            0.014171709073707461,
+            0.01424912502989173
+          ],
+          "median": 0.01424912502989173,
+          "min": 0.014171709073707461,
+          "max": 0.014943415997549891
+        },
+        "T_eig_sigma": {
+          "raw": [
+            0.03157641598954797,
+            0.03365791600663215,
+            0.03221154189668596
+          ],
+          "median": 0.03221154189668596,
+          "min": 0.03157641598954797,
+          "max": 0.03365791600663215
+        },
+        "T_eig_update": {
+          "raw": [
+            0.23090520384721458,
+            0.24073975498322397,
+            0.22993266372941434
+          ],
+          "median": 0.23090520384721458,
+          "min": 0.22993266372941434,
+          "max": 0.24073975498322397
+        },
+        "T_cert_standard_spectrum": {
+          "raw": [
+            0.02874708396848291,
+            0.030583375017158687,
+            0.028385667013935745
+          ],
+          "median": 0.02874708396848291,
+          "min": 0.028385667013935745,
+          "max": 0.030583375017158687
+        },
+        "T_cert_phisd_spectrum": {
+          "raw": [
+            0.02736254094634205,
+            0.029591582948341966,
+            0.02971766598057002
+          ],
+          "median": 0.029591582948341966,
+          "min": 0.02736254094634205,
+          "max": 0.02971766598057002
+        }
+      }
+    }
+  ]
+}

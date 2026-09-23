@@ -1,0 +1,729 @@
+{
+  "metadata": {
+    "timing_repeats": 3,
+    "time_unit": "seconds",
+    "retained_experiment_repetition": 1,
+    "T_total_includes_certification": false,
+    "T_total_is_assembled_standalone_estimate": true,
+    "component_overlap": "component timing categories must not be summed blindly to obtain T_total.",
+    "timing_definitions": {
+      "T_total": "Assembled standalone method estimate = T_shared_initial + T_method_initial + T_outer; not a contiguous stopwatch. Shared initialization is executed once in its original position and charged once to each method. Python startup, common problem/u0/g0 construction, certification, plotting, summaries and file I/O are excluded.",
+      "T_shared_initial": "Original interval from before H0=dense_hessian through h0_norm: initial dense Hessian, shared ordinary eigendecomposition, original diagnostics, lam_min and h0_norm.",
+      "T_H0_build": "Complete original shared dense_hessian call, including finite-difference HVP and state/adjoint work.",
+      "T_shared_spectrum": "Original shared np.linalg.eigh(H0). The subsequent make_method eigendecomposition is unchanged.",
+      "T_shared_other": "T_shared_initial minus T_H0_build and T_shared_spectrum, including original diagnostics and instrumentation overhead.",
+      "T_method_initial": "Original method preparation from t76_begin_method to t76_end_method, including metric construction/setup and initial eigenspace.",
+      "T_setup_update": "Equal to T_metric_setup: actual initial metric construction/factorization only. H1 sparse conversion/factorized; shifted-Cholesky delta/construction/factorization; frozen-spectral eps_spec/construction/factorization. Common PDE matrices excluded. No metric updates; update_count=0.",
+      "T_metric_setup": "Existing initial metric setup interval measured by t76_metric from the method preparation start. Standard identity has zero.",
+      "T_apply_solve": "T_metric_apply + T_metric_solve, including only actual explicit metric callable executions. No added metric operations; Standard identity has zero.",
+      "T_metric_apply": "Original explicit metric apply callable executions, including initial M-normalization and frame normalizations.",
+      "T_metric_solve": "Original explicit metric solve callable executions in state directions and frame updates.",
+      "T_eig": "Inclusive diagnostic = T_H0_build + T_shared_spectrum + T_initial_eig + T_frame. Includes nested metric work also recorded in T_apply_solve.",
+      "T_initial_eig": "Original make_method including ordinary/generalized eigensolver, selection, normalization and kappa/L_M0. Internal generalized-eigensolver work remains here.",
+      "T_frame": "Original direction-update blocks, including HVP/state/adjoint work, Rayleigh/projection, normalization and nested metric apply/solve.",
+      "T_outer": "Original run entry through the end of the unchanged outer loop, stopping before final_index. Includes residual/cost/history/state/frame work and timing overhead.",
+      "T_cert": "Only the original final_index call: endpoint dense Hessian, eigvalsh and Morse-index threshold/count computation. Outside T_total.",
+      "T_cert_Hessian": "Original dense_hessian subinterval within final_index, included in T_cert only.",
+      "legacy_history_time": "Original output time and per-point history clocks retained separately; excluded from numerical equality checks.",
+      "nonconverged_T_total": "Consumed wall-clock until termination, not time-to-solution. No speedup is reported for nonconverged methods."
+    },
+    "fresh_processes": true,
+    "solver_warmup": false,
+    "parameter_tuning": false,
+    "environment_changes": false,
+    "method_order": [
+      "standard_hisd",
+      "p_hisd_H1",
+      "p_hisd_shifted_cholesky",
+      "p_hisd_frozen_spectral"
+    ],
+    "numerical_regression": {
+      "passed": true,
+      "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+      "maximum_numerical_difference": 0.0,
+      "checked_objects": 206,
+      "failures": [],
+      "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+    },
+    "formal_checks_against_instrumented_reference": [
+      {
+        "repetition": 1,
+        "passed": true,
+        "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+        "maximum_numerical_difference": 0.0,
+        "checked_objects": 206,
+        "failures": [],
+        "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+      },
+      {
+        "repetition": 2,
+        "passed": true,
+        "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+        "maximum_numerical_difference": 0.0,
+        "checked_objects": 206,
+        "failures": [],
+        "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+      },
+      {
+        "repetition": 3,
+        "passed": true,
+        "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+        "maximum_numerical_difference": 0.0,
+        "checked_objects": 206,
+        "failures": [],
+        "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+      }
+    ],
+    "repetition_2_3_pdf_unchanged": true,
+    "output_dir": "outputs/7.6",
+    "paths": {
+      "6.pdf": "outputs/7.6/6.pdf",
+      "timing76_raw.json": "outputs/7.6/timing76_raw.json",
+      "timing76_raw.npz": "outputs/7.6/timing76_raw.npz",
+      "timing76_summary.json": "outputs/7.6/timing76_summary.json",
+      "timing76_summary.csv": "outputs/7.6/timing76_summary.csv",
+      "timing76_audit.md": "outputs/7.6/timing76_audit.md"
+    }
+  },
+  "methods": [
+    {
+      "method": "standard_hisd",
+      "label": "HiSD",
+      "status": "converged",
+      "converged": true,
+      "iterations": 33939,
+      "final_residual": 9.99716925998432e-07,
+      "final_index": 1,
+      "timing": {
+        "T_total": {
+          "repetition_1": 78.9604713730223,
+          "repetition_2": 80.13147820797167,
+          "repetition_3": 81.32218203999219,
+          "median": 80.13147820797167,
+          "min": 78.9604713730223,
+          "max": 81.32218203999219
+        },
+        "T_setup_update": {
+          "repetition_1": 0,
+          "repetition_2": 0,
+          "repetition_3": 0,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_apply_solve": {
+          "repetition_1": 0,
+          "repetition_2": 0,
+          "repetition_3": 0,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_eig": {
+          "repetition_1": 68.42355635904823,
+          "repetition_2": 69.43927638378227,
+          "repetition_3": 70.47120861741132,
+          "median": 69.43927638378227,
+          "min": 68.42355635904823,
+          "max": 70.47120861741132
+        },
+        "T_cert": {
+          "repetition_1": 0.11229387499042787,
+          "repetition_2": 0.1048219169897493,
+          "repetition_3": 0.10571537501527928,
+          "median": 0.10571537501527928,
+          "min": 0.1048219169897493,
+          "max": 0.11229387499042787
+        },
+        "T_shared_initial": {
+          "repetition_1": 0.10702166601549834,
+          "repetition_2": 0.1102429999737069,
+          "repetition_3": 0.10496283299289644,
+          "median": 0.10702166601549834,
+          "min": 0.10496283299289644,
+          "max": 0.1102429999737069
+        },
+        "T_H0_build": {
+          "repetition_1": 0.10381991698523052,
+          "repetition_2": 0.10717033297987655,
+          "repetition_3": 0.10170349999680184,
+          "median": 0.10381991698523052,
+          "min": 0.10170349999680184,
+          "max": 0.10717033297987655
+        },
+        "T_shared_spectrum": {
+          "repetition_1": 0.0031529589905403554,
+          "repetition_2": 0.002999834017828107,
+          "repetition_3": 0.0032035420008469373,
+          "median": 0.0031529589905403554,
+          "min": 0.002999834017828107,
+          "max": 0.0032035420008469373
+        },
+        "T_shared_other": {
+          "repetition_1": 4.879003972746432e-05,
+          "repetition_2": 7.283297600224614e-05,
+          "repetition_3": 5.579099524766207e-05,
+          "median": 5.579099524766207e-05,
+          "min": 4.879003972746432e-05,
+          "max": 7.283297600224614e-05
+        },
+        "T_method_initial": {
+          "repetition_1": 0.0029966660076752305,
+          "repetition_2": 0.003013375011505559,
+          "repetition_3": 0.0030015409865882248,
+          "median": 0.0030015409865882248,
+          "min": 0.0029966660076752305,
+          "max": 0.003013375011505559
+        },
+        "T_initial_eig": {
+          "repetition_1": 0.00299483397975564,
+          "repetition_2": 0.0030085839971434325,
+          "repetition_3": 0.0029988749884068966,
+          "median": 0.0029988749884068966,
+          "min": 0.00299483397975564,
+          "max": 0.0030085839971434325
+        },
+        "T_outer": {
+          "repetition_1": 78.85045304099913,
+          "repetition_2": 80.01822183298646,
+          "repetition_3": 81.2142176660127,
+          "median": 80.01822183298646,
+          "min": 78.85045304099913,
+          "max": 81.2142176660127
+        },
+        "T_metric_setup": {
+          "repetition_1": 0,
+          "repetition_2": 0,
+          "repetition_3": 0,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_metric_apply": {
+          "repetition_1": 0,
+          "repetition_2": 0,
+          "repetition_3": 0,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_metric_solve": {
+          "repetition_1": 0,
+          "repetition_2": 0,
+          "repetition_3": 0,
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "T_frame": {
+          "repetition_1": 68.31358864909271,
+          "repetition_2": 69.32609763278742,
+          "repetition_3": 70.36330270042527,
+          "median": 69.32609763278742,
+          "min": 68.31358864909271,
+          "max": 70.36330270042527
+        },
+        "T_cert_Hessian": {
+          "repetition_1": 0.11026679200585932,
+          "repetition_2": 0.10276129198609851,
+          "repetition_3": 0.10377012501703575,
+          "median": 0.10377012501703575,
+          "min": 0.10276129198609851,
+          "max": 0.11026679200585932
+        }
+      },
+      "operation_counts_and_backend": {
+        "initial_setup_count": 0,
+        "setup_count": 0,
+        "update_count": 0,
+        "apply_count": 0,
+        "solve_count": 0,
+        "state_updates": 33939,
+        "frame_iterations": 169695,
+        "factorization_attempt_count": 0,
+        "factorization_failure_count": 0,
+        "certification_count": 1
+      }
+    },
+    {
+      "method": "p_hisd_H1",
+      "label": "Laplacian",
+      "status": "converged",
+      "converged": true,
+      "iterations": 841,
+      "final_residual": 9.879639023886598e-07,
+      "final_index": 1,
+      "timing": {
+        "T_total": {
+          "repetition_1": 2.2305068320129067,
+          "repetition_2": 2.1191421669500414,
+          "repetition_3": 2.210076039977139,
+          "median": 2.210076039977139,
+          "min": 2.1191421669500414,
+          "max": 2.2305068320129067
+        },
+        "T_setup_update": {
+          "repetition_1": 7.191699114628136e-05,
+          "repetition_2": 0.00013966698315925896,
+          "repetition_3": 7.52909982111305e-05,
+          "median": 7.52909982111305e-05,
+          "min": 7.191699114628136e-05,
+          "max": 0.00013966698315925896
+        },
+        "T_apply_solve": {
+          "repetition_1": 0.03340763828600757,
+          "repetition_2": 0.03235568356467411,
+          "repetition_3": 0.0325003131874837,
+          "median": 0.0325003131874837,
+          "min": 0.03235568356467411,
+          "max": 0.03340763828600757
+        },
+        "T_eig": {
+          "repetition_1": 1.9513583255175035,
+          "repetition_2": 1.8514923872135114,
+          "repetition_3": 1.9301565032219514,
+          "median": 1.9301565032219514,
+          "min": 1.8514923872135114,
+          "max": 1.9513583255175035
+        },
+        "T_cert": {
+          "repetition_1": 0.10474100001738407,
+          "repetition_2": 0.1048508330131881,
+          "repetition_3": 0.1096163339971099,
+          "median": 0.1048508330131881,
+          "min": 0.10474100001738407,
+          "max": 0.1096163339971099
+        },
+        "T_shared_initial": {
+          "repetition_1": 0.10702166601549834,
+          "repetition_2": 0.1102429999737069,
+          "repetition_3": 0.10496283299289644,
+          "median": 0.10702166601549834,
+          "min": 0.10496283299289644,
+          "max": 0.1102429999737069
+        },
+        "T_H0_build": {
+          "repetition_1": 0.10381991698523052,
+          "repetition_2": 0.10717033297987655,
+          "repetition_3": 0.10170349999680184,
+          "median": 0.10381991698523052,
+          "min": 0.10170349999680184,
+          "max": 0.10717033297987655
+        },
+        "T_shared_spectrum": {
+          "repetition_1": 0.0031529589905403554,
+          "repetition_2": 0.002999834017828107,
+          "repetition_3": 0.0032035420008469373,
+          "median": 0.0031529589905403554,
+          "min": 0.002999834017828107,
+          "max": 0.0032035420008469373
+        },
+        "T_shared_other": {
+          "repetition_1": 4.879003972746432e-05,
+          "repetition_2": 7.283297600224614e-05,
+          "repetition_3": 5.579099524766207e-05,
+          "median": 5.579099524766207e-05,
+          "min": 4.879003972746432e-05,
+          "max": 7.283297600224614e-05
+        },
+        "T_method_initial": {
+          "repetition_1": 0.003467082977294922,
+          "repetition_2": 0.003677208995213732,
+          "repetition_3": 0.0034796659892890602,
+          "median": 0.0034796659892890602,
+          "min": 0.003467082977294922,
+          "max": 0.003677208995213732
+        },
+        "T_initial_eig": {
+          "repetition_1": 0.0033905410091392696,
+          "repetition_2": 0.003528457978973165,
+          "repetition_3": 0.0033972090168390423,
+          "median": 0.0033972090168390423,
+          "min": 0.0033905410091392696,
+          "max": 0.003528457978973165
+        },
+        "T_outer": {
+          "repetition_1": 2.1200180830201134,
+          "repetition_2": 2.005221957981121,
+          "repetition_3": 2.1016335409949534,
+          "median": 2.1016335409949534,
+          "min": 2.005221957981121,
+          "max": 2.1200180830201134
+        },
+        "T_metric_setup": {
+          "repetition_1": 7.191699114628136e-05,
+          "repetition_2": 0.00013966698315925896,
+          "repetition_3": 7.52909982111305e-05,
+          "median": 7.52909982111305e-05,
+          "min": 7.191699114628136e-05,
+          "max": 0.00013966698315925896
+        },
+        "T_metric_apply": {
+          "repetition_1": 0.011715935019310564,
+          "repetition_2": 0.01129566429881379,
+          "repetition_3": 0.011400028975913301,
+          "median": 0.011400028975913301,
+          "min": 0.01129566429881379,
+          "max": 0.011715935019310564
+        },
+        "T_metric_solve": {
+          "repetition_1": 0.021691703266697004,
+          "repetition_2": 0.02106001926586032,
+          "repetition_3": 0.021100284211570397,
+          "median": 0.021100284211570397,
+          "min": 0.02106001926586032,
+          "max": 0.021691703266697004
+        },
+        "T_frame": {
+          "repetition_1": 1.8409949085325934,
+          "repetition_2": 1.7377937622368336,
+          "repetition_3": 1.8218522522074636,
+          "median": 1.8218522522074636,
+          "min": 1.7377937622368336,
+          "max": 1.8409949085325934
+        },
+        "T_cert_Hessian": {
+          "repetition_1": 0.10274300002492964,
+          "repetition_2": 0.10292649999610148,
+          "repetition_3": 0.1076992500165943,
+          "median": 0.10292649999610148,
+          "min": 0.10274300002492964,
+          "max": 0.1076992500165943
+        }
+      },
+      "operation_counts_and_backend": {
+        "initial_setup_count": 1,
+        "setup_count": 1,
+        "update_count": 0,
+        "apply_count": 4206,
+        "solve_count": 5046,
+        "state_updates": 841,
+        "frame_iterations": 4205,
+        "factorization_attempt_count": 1,
+        "factorization_failure_count": 0,
+        "certification_count": 1,
+        "factorization_backend": "scipy.sparse.linalg.factorized: SuperLU"
+      }
+    },
+    {
+      "method": "p_hisd_shifted_cholesky",
+      "label": "shifted Cholesky",
+      "status": "converged",
+      "converged": true,
+      "iterations": 25,
+      "final_residual": 6.020542508920599e-07,
+      "final_index": 1,
+      "timing": {
+        "T_total": {
+          "repetition_1": 0.17970633300137706,
+          "repetition_2": 0.18176987493643537,
+          "repetition_3": 0.1790352500102017,
+          "median": 0.17970633300137706,
+          "min": 0.1790352500102017,
+          "max": 0.18176987493643537
+        },
+        "T_setup_update": {
+          "repetition_1": 0.003170583979226649,
+          "repetition_2": 0.002744708996033296,
+          "repetition_3": 0.002894582983572036,
+          "median": 0.002894582983572036,
+          "min": 0.002744708996033296,
+          "max": 0.003170583979226649
+        },
+        "T_apply_solve": {
+          "repetition_1": 0.004599614534527063,
+          "repetition_2": 0.0048617428401485085,
+          "repetition_3": 0.004508206126047298,
+          "median": 0.004599614534527063,
+          "min": 0.004508206126047298,
+          "max": 0.0048617428401485085
+        },
+        "T_eig": {
+          "repetition_1": 0.16724854600033723,
+          "repetition_2": 0.1697813760547433,
+          "repetition_3": 0.16663562107714824,
+          "median": 0.16724854600033723,
+          "min": 0.16663562107714824,
+          "max": 0.1697813760547433
+        },
+        "T_cert": {
+          "repetition_1": 0.10636204198817722,
+          "repetition_2": 0.10589775000698864,
+          "repetition_3": 0.1102139170106966,
+          "median": 0.10636204198817722,
+          "min": 0.10589775000698864,
+          "max": 0.1102139170106966
+        },
+        "T_shared_initial": {
+          "repetition_1": 0.10702166601549834,
+          "repetition_2": 0.1102429999737069,
+          "repetition_3": 0.10496283299289644,
+          "median": 0.10702166601549834,
+          "min": 0.10496283299289644,
+          "max": 0.1102429999737069
+        },
+        "T_H0_build": {
+          "repetition_1": 0.10381991698523052,
+          "repetition_2": 0.10717033297987655,
+          "repetition_3": 0.10170349999680184,
+          "median": 0.10381991698523052,
+          "min": 0.10170349999680184,
+          "max": 0.10717033297987655
+        },
+        "T_shared_spectrum": {
+          "repetition_1": 0.0031529589905403554,
+          "repetition_2": 0.002999834017828107,
+          "repetition_3": 0.0032035420008469373,
+          "median": 0.0031529589905403554,
+          "min": 0.002999834017828107,
+          "max": 0.0032035420008469373
+        },
+        "T_shared_other": {
+          "repetition_1": 4.879003972746432e-05,
+          "repetition_2": 7.283297600224614e-05,
+          "repetition_3": 5.579099524766207e-05,
+          "median": 5.579099524766207e-05,
+          "min": 4.879003972746432e-05,
+          "max": 7.283297600224614e-05
+        },
+        "T_method_initial": {
+          "repetition_1": 0.006653333985013887,
+          "repetition_2": 0.006247458979487419,
+          "repetition_3": 0.006188458006363362,
+          "median": 0.006247458979487419,
+          "min": 0.006188458006363362,
+          "max": 0.006653333985013887
+        },
+        "T_initial_eig": {
+          "repetition_1": 0.0034795420069713145,
+          "repetition_2": 0.0034991659922525287,
+          "repetition_3": 0.0032917920034378767,
+          "median": 0.0034795420069713145,
+          "min": 0.0032917920034378767,
+          "max": 0.0034991659922525287
+        },
+        "T_outer": {
+          "repetition_1": 0.06603133300086483,
+          "repetition_2": 0.06527941598324105,
+          "repetition_3": 0.06788395901094191,
+          "median": 0.06603133300086483,
+          "min": 0.06527941598324105,
+          "max": 0.06788395901094191
+        },
+        "T_metric_setup": {
+          "repetition_1": 0.003170583979226649,
+          "repetition_2": 0.002744708996033296,
+          "repetition_3": 0.002894582983572036,
+          "median": 0.002894582983572036,
+          "min": 0.002744708996033296,
+          "max": 0.003170583979226649
+        },
+        "T_metric_apply": {
+          "repetition_1": 0.0004023708461318165,
+          "repetition_2": 0.0004152479814365506,
+          "repetition_3": 0.0003991698904428631,
+          "median": 0.0004023708461318165,
+          "min": 0.0003991698904428631,
+          "max": 0.0004152479814365506
+        },
+        "T_metric_solve": {
+          "repetition_1": 0.004197243688395247,
+          "repetition_2": 0.004446494858711958,
+          "repetition_3": 0.004109036235604435,
+          "median": 0.004197243688395247,
+          "min": 0.004109036235604435,
+          "max": 0.004446494858711958
+        },
+        "T_frame": {
+          "repetition_1": 0.05679612801759504,
+          "repetition_2": 0.05611204306478612,
+          "repetition_3": 0.05843678707606159,
+          "median": 0.05679612801759504,
+          "min": 0.05611204306478612,
+          "max": 0.05843678707606159
+        },
+        "T_cert_Hessian": {
+          "repetition_1": 0.1044577079883311,
+          "repetition_2": 0.1039809170179069,
+          "repetition_3": 0.10830045799957588,
+          "median": 0.1044577079883311,
+          "min": 0.1039809170179069,
+          "max": 0.10830045799957588
+        }
+      },
+      "operation_counts_and_backend": {
+        "initial_setup_count": 1,
+        "setup_count": 1,
+        "update_count": 0,
+        "apply_count": 126,
+        "solve_count": 150,
+        "state_updates": 25,
+        "frame_iterations": 125,
+        "factorization_attempt_count": 1,
+        "factorization_failure_count": 0,
+        "certification_count": 1,
+        "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+      }
+    },
+    {
+      "method": "p_hisd_frozen_spectral",
+      "label": "Spectral",
+      "status": "converged",
+      "converged": true,
+      "iterations": 37,
+      "final_residual": 7.444263607504944e-07,
+      "final_index": 1,
+      "timing": {
+        "T_total": {
+          "repetition_1": 0.21157150002545677,
+          "repetition_2": 0.21406145798391663,
+          "repetition_3": 0.21207820798736066,
+          "median": 0.21207820798736066,
+          "min": 0.21157150002545677,
+          "max": 0.21406145798391663
+        },
+        "T_setup_update": {
+          "repetition_1": 0.0031020000169519335,
+          "repetition_2": 0.0026841250073630363,
+          "repetition_3": 0.002975041017634794,
+          "median": 0.002975041017634794,
+          "min": 0.0026841250073630363,
+          "max": 0.0031020000169519335
+        },
+        "T_apply_solve": {
+          "repetition_1": 0.006500705145299435,
+          "repetition_2": 0.006635836965870112,
+          "repetition_3": 0.0063976267410907894,
+          "median": 0.006500705145299435,
+          "min": 0.0063976267410907894,
+          "max": 0.006635836965870112
+        },
+        "T_eig": {
+          "repetition_1": 0.1947450460284017,
+          "repetition_2": 0.1976080420135986,
+          "repetition_3": 0.1949252950726077,
+          "median": 0.1949252950726077,
+          "min": 0.1947450460284017,
+          "max": 0.1976080420135986
+        },
+        "T_cert": {
+          "repetition_1": 0.10539229100686498,
+          "repetition_2": 0.10449695799616165,
+          "repetition_3": 0.10778408299665898,
+          "median": 0.10539229100686498,
+          "min": 0.10449695799616165,
+          "max": 0.10778408299665898
+        },
+        "T_shared_initial": {
+          "repetition_1": 0.10702166601549834,
+          "repetition_2": 0.1102429999737069,
+          "repetition_3": 0.10496283299289644,
+          "median": 0.10702166601549834,
+          "min": 0.10496283299289644,
+          "max": 0.1102429999737069
+        },
+        "T_H0_build": {
+          "repetition_1": 0.10381991698523052,
+          "repetition_2": 0.10717033297987655,
+          "repetition_3": 0.10170349999680184,
+          "median": 0.10381991698523052,
+          "min": 0.10170349999680184,
+          "max": 0.10717033297987655
+        },
+        "T_shared_spectrum": {
+          "repetition_1": 0.0031529589905403554,
+          "repetition_2": 0.002999834017828107,
+          "repetition_3": 0.0032035420008469373,
+          "median": 0.0031529589905403554,
+          "min": 0.002999834017828107,
+          "max": 0.0032035420008469373
+        },
+        "T_shared_other": {
+          "repetition_1": 4.879003972746432e-05,
+          "repetition_2": 7.283297600224614e-05,
+          "repetition_3": 5.579099524766207e-05,
+          "median": 5.579099524766207e-05,
+          "min": 4.879003972746432e-05,
+          "max": 7.283297600224614e-05
+        },
+        "T_method_initial": {
+          "repetition_1": 0.006822708994150162,
+          "repetition_2": 0.0059904580120928586,
+          "repetition_3": 0.006276208005147055,
+          "median": 0.006276208005147055,
+          "min": 0.0059904580120928586,
+          "max": 0.006822708994150162
+        },
+        "T_initial_eig": {
+          "repetition_1": 0.0037114580045454204,
+          "repetition_2": 0.0033037499815691262,
+          "repetition_3": 0.003299082978628576,
+          "median": 0.0033037499815691262,
+          "min": 0.003299082978628576,
+          "max": 0.0037114580045454204
+        },
+        "T_outer": {
+          "repetition_1": 0.09772712501580827,
+          "repetition_2": 0.09782799999811687,
+          "repetition_3": 0.10083916698931716,
+          "median": 0.09782799999811687,
+          "min": 0.09772712501580827,
+          "max": 0.10083916698931716
+        },
+        "T_metric_setup": {
+          "repetition_1": 0.0031020000169519335,
+          "repetition_2": 0.0026841250073630363,
+          "repetition_3": 0.002975041017634794,
+          "median": 0.002975041017634794,
+          "min": 0.0026841250073630363,
+          "max": 0.0031020000169519335
+        },
+        "T_metric_apply": {
+          "repetition_1": 0.0005375331675168127,
+          "repetition_2": 0.0005977140681352466,
+          "repetition_3": 0.0004975518095307052,
+          "median": 0.0005375331675168127,
+          "min": 0.0004975518095307052,
+          "max": 0.0005977140681352466
+        },
+        "T_metric_solve": {
+          "repetition_1": 0.005963171977782622,
+          "repetition_2": 0.0060381228977348655,
+          "repetition_3": 0.005900074931560084,
+          "median": 0.005963171977782622,
+          "min": 0.005900074931560084,
+          "max": 0.0060381228977348655
+        },
+        "T_frame": {
+          "repetition_1": 0.0840607120480854,
+          "repetition_2": 0.08413412503432482,
+          "repetition_3": 0.08671917009633034,
+          "median": 0.08413412503432482,
+          "min": 0.0840607120480854,
+          "max": 0.08671917009633034
+        },
+        "T_cert_Hessian": {
+          "repetition_1": 0.10344891701242886,
+          "repetition_2": 0.10256283398484811,
+          "repetition_3": 0.10583608399610966,
+          "median": 0.10344891701242886,
+          "min": 0.10256283398484811,
+          "max": 0.10583608399610966
+        }
+      },
+      "operation_counts_and_backend": {
+        "initial_setup_count": 1,
+        "setup_count": 1,
+        "update_count": 0,
+        "apply_count": 186,
+        "solve_count": 222,
+        "state_updates": 37,
+        "frame_iterations": 185,
+        "factorization_attempt_count": 1,
+        "factorization_failure_count": 0,
+        "certification_count": 1,
+        "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+      }
+    }
+  ]
+}

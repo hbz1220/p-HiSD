@@ -1,0 +1,1854 @@
+{
+  "metadata": {
+    "timing_repeats": 3,
+    "time_unit": "seconds",
+    "retained_experiment_repetition": 1,
+    "T_total_includes_certification": false,
+    "T_total_is_assembled_standalone_estimate": true,
+    "component_overlap": "component timing categories must not be summed blindly to obtain T_total.",
+    "timing_definitions": {
+      "T_total": "Assembled standalone method estimate = T_shared_initial + T_method_initial + T_outer; not a contiguous stopwatch. Shared initialization is executed once in its original position and charged once to each method. Python startup, common problem/u0/g0 construction, certification, plotting, summaries and file I/O are excluded.",
+      "T_shared_initial": "Original interval from before H0=dense_hessian through h0_norm: initial dense Hessian, shared ordinary eigendecomposition, original diagnostics, lam_min and h0_norm.",
+      "T_H0_build": "Complete original shared dense_hessian call, including finite-difference HVP and state/adjoint work.",
+      "T_shared_spectrum": "Original shared np.linalg.eigh(H0). The subsequent make_method eigendecomposition is unchanged.",
+      "T_shared_other": "T_shared_initial minus T_H0_build and T_shared_spectrum, including original diagnostics and instrumentation overhead.",
+      "T_method_initial": "Original method preparation from t76_begin_method to t76_end_method, including metric construction/setup and initial eigenspace.",
+      "T_setup_update": "Equal to T_metric_setup: actual initial metric construction/factorization only. H1 sparse conversion/factorized; shifted-Cholesky delta/construction/factorization; frozen-spectral eps_spec/construction/factorization. Common PDE matrices excluded. No metric updates; update_count=0.",
+      "T_metric_setup": "Existing initial metric setup interval measured by t76_metric from the method preparation start. Standard identity has zero.",
+      "T_apply_solve": "T_metric_apply + T_metric_solve, including only actual explicit metric callable executions. No added metric operations; Standard identity has zero.",
+      "T_metric_apply": "Original explicit metric apply callable executions, including initial M-normalization and frame normalizations.",
+      "T_metric_solve": "Original explicit metric solve callable executions in state directions and frame updates.",
+      "T_eig": "Inclusive diagnostic = T_H0_build + T_shared_spectrum + T_initial_eig + T_frame. Includes nested metric work also recorded in T_apply_solve.",
+      "T_initial_eig": "Original make_method including ordinary/generalized eigensolver, selection, normalization and kappa/L_M0. Internal generalized-eigensolver work remains here.",
+      "T_frame": "Original direction-update blocks, including HVP/state/adjoint work, Rayleigh/projection, normalization and nested metric apply/solve.",
+      "T_outer": "Original run entry through the end of the unchanged outer loop, stopping before final_index. Includes residual/cost/history/state/frame work and timing overhead.",
+      "T_cert": "Only the original final_index call: endpoint dense Hessian, eigvalsh and Morse-index threshold/count computation. Outside T_total.",
+      "T_cert_Hessian": "Original dense_hessian subinterval within final_index, included in T_cert only.",
+      "legacy_history_time": "Original output time and per-point history clocks retained separately; excluded from numerical equality checks.",
+      "nonconverged_T_total": "Consumed wall-clock until termination, not time-to-solution. No speedup is reported for nonconverged methods."
+    },
+    "fresh_processes": true,
+    "solver_warmup": false,
+    "parameter_tuning": false,
+    "environment_changes": false,
+    "method_order": [
+      "standard_hisd",
+      "p_hisd_H1",
+      "p_hisd_shifted_cholesky",
+      "p_hisd_frozen_spectral"
+    ],
+    "numerical_regression": {
+      "passed": true,
+      "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+      "maximum_numerical_difference": 0.0,
+      "checked_objects": 206,
+      "failures": [],
+      "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+    },
+    "formal_checks_against_instrumented_reference": [
+      {
+        "repetition": 1,
+        "passed": true,
+        "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+        "maximum_numerical_difference": 0.0,
+        "checked_objects": 206,
+        "failures": [],
+        "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+      },
+      {
+        "repetition": 2,
+        "passed": true,
+        "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+        "maximum_numerical_difference": 0.0,
+        "checked_objects": 206,
+        "failures": [],
+        "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+      },
+      {
+        "repetition": 3,
+        "passed": true,
+        "comparison": "Exact equality; numpy.array_equal(equal_nan=True), including shape and dtype",
+        "maximum_numerical_difference": 0.0,
+        "checked_objects": 206,
+        "failures": [],
+        "scope": "All parameters, shared initialization, initial frames and dense metrics, complete iteration/residual histories, returned u/y/gradient norm/J/index/status, operation counts and backend; clocks excluded."
+      }
+    ],
+    "repetition_2_3_pdf_unchanged": true,
+    "output_dir": "outputs/7.6",
+    "paths": {
+      "6.pdf": "outputs/7.6/6.pdf",
+      "timing76_raw.json": "outputs/7.6/timing76_raw.json",
+      "timing76_raw.npz": "outputs/7.6/timing76_raw.npz",
+      "timing76_summary.json": "outputs/7.6/timing76_summary.json",
+      "timing76_summary.csv": "outputs/7.6/timing76_summary.csv",
+      "timing76_audit.md": "outputs/7.6/timing76_audit.md"
+    }
+  },
+  "repetitions": [
+    {
+      "numerical": {
+        "parameters": {
+          "H_GRID": 0.00390625,
+          "N_GRID": 255,
+          "LAMBDA": 0.02,
+          "U0_AMPLITUDE": 0.5,
+          "U0_MODE": 1,
+          "TOL": 1e-06,
+          "MAX_ITER": 2000000,
+          "PLOT_MAX_ITER": 300,
+          "HV_EPS": 1e-05,
+          "STATE_TOL": 1e-10,
+          "STATE_MAXIT": 30,
+          "DIVERGE_GRAD": 100000000.0,
+          "DIVERGE_UINF": 10000.0,
+          "STANDARD_ETA": 0.0001,
+          "COMMON_TAU": 0.001,
+          "DIRECTION_ITERS": 5,
+          "PHISD_ETA": 1,
+          "INCLUDE_H1": true,
+          "INCLUDE_SHIFTED_CHOLESKY": true,
+          "INCLUDE_FROZEN_SPECTRAL": true,
+          "SHIFT_FACTOR": 2.0,
+          "EPS_HESSIAN_FACTOR": 1e-06,
+          "EPS_DENSE_METRIC_FACTOR": 1e-12,
+          "OUTPUT_FIG": "6.pdf",
+          "N": 255,
+          "effective_arguments": {
+            "tol": 1e-06,
+            "max_iter": 2000000,
+            "plot_max_iter": 300,
+            "hv_eps": 1e-05
+          }
+        },
+        "initial": {
+          "u0": {
+            "npz_key": "repetition_1.numerical.initial.u0",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "g0": {
+            "npz_key": "repetition_1.numerical.initial.g0",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "H0": {
+            "npz_key": "repetition_1.numerical.initial.H0",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "eig_ord": {
+            "npz_key": "repetition_1.numerical.initial.eig_ord",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "Q0": {
+            "npz_key": "repetition_1.numerical.initial.Q0",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "lam_min": -2.521737349918016,
+          "h0_norm": 5246.481346257195,
+          "delta": 5.048721181182289,
+          "M_shifted_chol": {
+            "npz_key": "repetition_1.numerical.initial.M_shifted_chol",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "eps_spec": 0.01,
+          "M_spec": {
+            "npz_key": "repetition_1.numerical.initial.M_spec",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          }
+        },
+        "methods": [
+          {
+            "name": "standard_hisd",
+            "label": "HiSD",
+            "standard": true,
+            "v0": {
+              "npz_key": "repetition_1.numerical.methods.0.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 0.0001,
+            "tau": 0.001,
+            "kappa_M0": 2080.502692490066,
+            "L_M0": 5246.481346257195,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_1.numerical.methods.0.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_H1",
+            "label": "Laplacian",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_1.numerical.methods.1.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 13.446464408793286,
+            "L_M0": 0.20160954862455935,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_1.numerical.methods.1.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_shifted_cholesky",
+            "label": "shifted Cholesky",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_1.numerical.methods.2.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 2.288291690497745,
+            "L_M0": 0.9990386190088699,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_1.numerical.methods.2.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_frozen_spectral",
+            "label": "Spectral",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_1.numerical.methods.3.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 1.0039636064465662,
+            "L_M0": 0.9999980939642622,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_1.numerical.methods.3.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "method": "standard_hisd",
+            "u": {
+              "npz_key": "repetition_1.numerical.outputs.0.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_1.numerical.outputs.0.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 9.99716925998432e-07,
+            "J": 0.9965684872592303,
+            "iter": 33939,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_1.numerical.outputs.0.history_iter",
+              "shape": [
+                33940
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_1.numerical.outputs.0.history_residual",
+              "shape": [
+                33940
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_H1",
+            "u": {
+              "npz_key": "repetition_1.numerical.outputs.1.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_1.numerical.outputs.1.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 9.879639023886598e-07,
+            "J": 0.9965684872592296,
+            "iter": 841,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_1.numerical.outputs.1.history_iter",
+              "shape": [
+                842
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_1.numerical.outputs.1.history_residual",
+              "shape": [
+                842
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_shifted_cholesky",
+            "u": {
+              "npz_key": "repetition_1.numerical.outputs.2.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_1.numerical.outputs.2.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 6.020542508920599e-07,
+            "J": 0.9965684872592302,
+            "iter": 25,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_1.numerical.outputs.2.history_iter",
+              "shape": [
+                26
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_1.numerical.outputs.2.history_residual",
+              "shape": [
+                26
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_frozen_spectral",
+            "u": {
+              "npz_key": "repetition_1.numerical.outputs.3.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_1.numerical.outputs.3.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 7.444263607504944e-07,
+            "J": 0.9965684872592296,
+            "iter": 37,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_1.numerical.outputs.3.history_iter",
+              "shape": [
+                38
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_1.numerical.outputs.3.history_residual",
+              "shape": [
+                38
+              ],
+              "dtype": "float64"
+            }
+          }
+        ]
+      },
+      "methods": [
+        {
+          "method": "standard_hisd",
+          "label": "HiSD",
+          "status": "converged",
+          "converged": true,
+          "iterations": 33939,
+          "residual_points": 33940,
+          "final_residual": 9.99716925998432e-07,
+          "final_cost_J": 0.9965684872592303,
+          "final_index": 1,
+          "kappa_M0": 2080.502692490066,
+          "L_M0": 5246.481346257195,
+          "legacy_outer_history_time": 78.85044245800236,
+          "timing": {
+            "T_total": 78.9604713730223,
+            "T_setup_update": 0,
+            "T_apply_solve": 0,
+            "T_eig": 68.42355635904823,
+            "T_cert": 0.11229387499042787,
+            "T_shared_initial": 0.10702166601549834,
+            "T_H0_build": 0.10381991698523052,
+            "T_shared_spectrum": 0.0031529589905403554,
+            "T_shared_other": 4.879003972746432e-05,
+            "T_method_initial": 0.0029966660076752305,
+            "T_initial_eig": 0.00299483397975564,
+            "T_outer": 78.85045304099913,
+            "T_metric_setup": 0,
+            "T_metric_apply": 0,
+            "T_metric_solve": 0,
+            "T_frame": 68.31358864909271,
+            "T_cert_Hessian": 0.11026679200585932,
+            "initial_setup_count": 0,
+            "setup_count": 0,
+            "update_count": 0,
+            "apply_count": 0,
+            "solve_count": 0,
+            "state_updates": 33939,
+            "frame_iterations": 169695,
+            "factorization_attempt_count": 0,
+            "factorization_failure_count": 0,
+            "certification_count": 1
+          }
+        },
+        {
+          "method": "p_hisd_H1",
+          "label": "Laplacian",
+          "status": "converged",
+          "converged": true,
+          "iterations": 841,
+          "residual_points": 842,
+          "final_residual": 9.879639023886598e-07,
+          "final_cost_J": 0.9965684872592296,
+          "final_index": 1,
+          "kappa_M0": 13.446464408793286,
+          "L_M0": 0.20160954862455935,
+          "legacy_outer_history_time": 2.120007916993927,
+          "timing": {
+            "T_total": 2.2305068320129067,
+            "T_setup_update": 7.191699114628136e-05,
+            "T_apply_solve": 0.03340763828600757,
+            "T_eig": 1.9513583255175035,
+            "T_cert": 0.10474100001738407,
+            "T_shared_initial": 0.10702166601549834,
+            "T_H0_build": 0.10381991698523052,
+            "T_shared_spectrum": 0.0031529589905403554,
+            "T_shared_other": 4.879003972746432e-05,
+            "T_method_initial": 0.003467082977294922,
+            "T_initial_eig": 0.0033905410091392696,
+            "T_outer": 2.1200180830201134,
+            "T_metric_setup": 7.191699114628136e-05,
+            "T_metric_apply": 0.011715935019310564,
+            "T_metric_solve": 0.021691703266697004,
+            "T_frame": 1.8409949085325934,
+            "T_cert_Hessian": 0.10274300002492964,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 4206,
+            "solve_count": 5046,
+            "state_updates": 841,
+            "frame_iterations": 4205,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.sparse.linalg.factorized: SuperLU"
+          }
+        },
+        {
+          "method": "p_hisd_shifted_cholesky",
+          "label": "shifted Cholesky",
+          "status": "converged",
+          "converged": true,
+          "iterations": 25,
+          "residual_points": 26,
+          "final_residual": 6.020542508920599e-07,
+          "final_cost_J": 0.9965684872592302,
+          "final_index": 1,
+          "kappa_M0": 2.288291690497745,
+          "L_M0": 0.9990386190088699,
+          "legacy_outer_history_time": 0.06602416699752212,
+          "timing": {
+            "T_total": 0.17970633300137706,
+            "T_setup_update": 0.003170583979226649,
+            "T_apply_solve": 0.004599614534527063,
+            "T_eig": 0.16724854600033723,
+            "T_cert": 0.10636204198817722,
+            "T_shared_initial": 0.10702166601549834,
+            "T_H0_build": 0.10381991698523052,
+            "T_shared_spectrum": 0.0031529589905403554,
+            "T_shared_other": 4.879003972746432e-05,
+            "T_method_initial": 0.006653333985013887,
+            "T_initial_eig": 0.0034795420069713145,
+            "T_outer": 0.06603133300086483,
+            "T_metric_setup": 0.003170583979226649,
+            "T_metric_apply": 0.0004023708461318165,
+            "T_metric_solve": 0.004197243688395247,
+            "T_frame": 0.05679612801759504,
+            "T_cert_Hessian": 0.1044577079883311,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 126,
+            "solve_count": 150,
+            "state_updates": 25,
+            "frame_iterations": 125,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+          }
+        },
+        {
+          "method": "p_hisd_frozen_spectral",
+          "label": "Spectral",
+          "status": "converged",
+          "converged": true,
+          "iterations": 37,
+          "residual_points": 38,
+          "final_residual": 7.444263607504944e-07,
+          "final_cost_J": 0.9965684872592296,
+          "final_index": 1,
+          "kappa_M0": 1.0039636064465662,
+          "L_M0": 0.9999980939642622,
+          "legacy_outer_history_time": 0.0977207499963697,
+          "timing": {
+            "T_total": 0.21157150002545677,
+            "T_setup_update": 0.0031020000169519335,
+            "T_apply_solve": 0.006500705145299435,
+            "T_eig": 0.1947450460284017,
+            "T_cert": 0.10539229100686498,
+            "T_shared_initial": 0.10702166601549834,
+            "T_H0_build": 0.10381991698523052,
+            "T_shared_spectrum": 0.0031529589905403554,
+            "T_shared_other": 4.879003972746432e-05,
+            "T_method_initial": 0.006822708994150162,
+            "T_initial_eig": 0.0037114580045454204,
+            "T_outer": 0.09772712501580827,
+            "T_metric_setup": 0.0031020000169519335,
+            "T_metric_apply": 0.0005375331675168127,
+            "T_metric_solve": 0.005963171977782622,
+            "T_frame": 0.0840607120480854,
+            "T_cert_Hessian": 0.10344891701242886,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 186,
+            "solve_count": 222,
+            "state_updates": 37,
+            "frame_iterations": 185,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+          }
+        }
+      ],
+      "legacy_history_times": [
+        {
+          "npz_key": "repetition_1.legacy_history_times.0",
+          "shape": [
+            33940
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_1.legacy_history_times.1",
+          "shape": [
+            842
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_1.legacy_history_times.2",
+          "shape": [
+            26
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_1.legacy_history_times.3",
+          "shape": [
+            38
+          ],
+          "dtype": "float64"
+        }
+      ],
+      "shared_timing": {
+        "T_H0_build": 0.10381991698523052,
+        "T_shared_spectrum": 0.0031529589905403554,
+        "T_shared_initial": 0.10702166601549834,
+        "T_shared_other": 4.879003972746432e-05
+      },
+      "environment": {
+        "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+        "executable": "code/python/.shared_venv/bin/python",
+        "numpy": "2.4.1",
+        "scipy": "1.17.0",
+        "matplotlib": "3.10.8",
+        "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "VECLIB_MAXIMUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null,
+          "BLIS_NUM_THREADS": null
+        },
+        "numpy_configuration": "{\n  \"Compilers\": {\n    \"c\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"cc\"\n    },\n    \"cython\": {\n      \"name\": \"cython\",\n      \"linker\": \"cython\",\n      \"version\": \"3.2.4\",\n      \"commands\": \"cython\"\n    },\n    \"c++\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"c++\"\n    }\n  },\n  \"Machine Information\": {\n    \"host\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"build\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    }\n  },\n  \"Build Dependencies\": {\n    \"blas\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    },\n    \"lapack\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    }\n  },\n  \"Python Information\": {\n    \"path\": \"python\",\n    \"version\": \"3.13\"\n  },\n  \"SIMD Extensions\": {\n    \"baseline\": [\n      \"NEON\",\n      \"NEON_FP16\",\n      \"NEON_VFPV4\",\n      \"ASIMD\"\n    ],\n    \"found\": [\n      \"ASIMDHP\",\n      \"ASIMDDP\"\n    ],\n    \"not found\": [\n      \"ASIMDFHM\"\n    ]\n  }\n}\n"
+      },
+      "process_id": 44185,
+      "output_dir": "outputs/7.6",
+      "rng_state_unchanged": true,
+      "mode": "formal1",
+      "repetition": 1
+    },
+    {
+      "numerical": {
+        "parameters": {
+          "H_GRID": 0.00390625,
+          "N_GRID": 255,
+          "LAMBDA": 0.02,
+          "U0_AMPLITUDE": 0.5,
+          "U0_MODE": 1,
+          "TOL": 1e-06,
+          "MAX_ITER": 2000000,
+          "PLOT_MAX_ITER": 300,
+          "HV_EPS": 1e-05,
+          "STATE_TOL": 1e-10,
+          "STATE_MAXIT": 30,
+          "DIVERGE_GRAD": 100000000.0,
+          "DIVERGE_UINF": 10000.0,
+          "STANDARD_ETA": 0.0001,
+          "COMMON_TAU": 0.001,
+          "DIRECTION_ITERS": 5,
+          "PHISD_ETA": 1,
+          "INCLUDE_H1": true,
+          "INCLUDE_SHIFTED_CHOLESKY": true,
+          "INCLUDE_FROZEN_SPECTRAL": true,
+          "SHIFT_FACTOR": 2.0,
+          "EPS_HESSIAN_FACTOR": 1e-06,
+          "EPS_DENSE_METRIC_FACTOR": 1e-12,
+          "OUTPUT_FIG": "6.pdf",
+          "N": 255,
+          "effective_arguments": {
+            "tol": 1e-06,
+            "max_iter": 2000000,
+            "plot_max_iter": 300,
+            "hv_eps": 1e-05
+          }
+        },
+        "initial": {
+          "u0": {
+            "npz_key": "repetition_2.numerical.initial.u0",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "g0": {
+            "npz_key": "repetition_2.numerical.initial.g0",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "H0": {
+            "npz_key": "repetition_2.numerical.initial.H0",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "eig_ord": {
+            "npz_key": "repetition_2.numerical.initial.eig_ord",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "Q0": {
+            "npz_key": "repetition_2.numerical.initial.Q0",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "lam_min": -2.521737349918016,
+          "h0_norm": 5246.481346257195,
+          "delta": 5.048721181182289,
+          "M_shifted_chol": {
+            "npz_key": "repetition_2.numerical.initial.M_shifted_chol",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "eps_spec": 0.01,
+          "M_spec": {
+            "npz_key": "repetition_2.numerical.initial.M_spec",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          }
+        },
+        "methods": [
+          {
+            "name": "standard_hisd",
+            "label": "HiSD",
+            "standard": true,
+            "v0": {
+              "npz_key": "repetition_2.numerical.methods.0.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 0.0001,
+            "tau": 0.001,
+            "kappa_M0": 2080.502692490066,
+            "L_M0": 5246.481346257195,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_2.numerical.methods.0.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_H1",
+            "label": "Laplacian",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_2.numerical.methods.1.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 13.446464408793286,
+            "L_M0": 0.20160954862455935,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_2.numerical.methods.1.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_shifted_cholesky",
+            "label": "shifted Cholesky",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_2.numerical.methods.2.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 2.288291690497745,
+            "L_M0": 0.9990386190088699,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_2.numerical.methods.2.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_frozen_spectral",
+            "label": "Spectral",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_2.numerical.methods.3.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 1.0039636064465662,
+            "L_M0": 0.9999980939642622,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_2.numerical.methods.3.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "method": "standard_hisd",
+            "u": {
+              "npz_key": "repetition_2.numerical.outputs.0.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_2.numerical.outputs.0.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 9.99716925998432e-07,
+            "J": 0.9965684872592303,
+            "iter": 33939,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_2.numerical.outputs.0.history_iter",
+              "shape": [
+                33940
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_2.numerical.outputs.0.history_residual",
+              "shape": [
+                33940
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_H1",
+            "u": {
+              "npz_key": "repetition_2.numerical.outputs.1.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_2.numerical.outputs.1.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 9.879639023886598e-07,
+            "J": 0.9965684872592296,
+            "iter": 841,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_2.numerical.outputs.1.history_iter",
+              "shape": [
+                842
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_2.numerical.outputs.1.history_residual",
+              "shape": [
+                842
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_shifted_cholesky",
+            "u": {
+              "npz_key": "repetition_2.numerical.outputs.2.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_2.numerical.outputs.2.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 6.020542508920599e-07,
+            "J": 0.9965684872592302,
+            "iter": 25,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_2.numerical.outputs.2.history_iter",
+              "shape": [
+                26
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_2.numerical.outputs.2.history_residual",
+              "shape": [
+                26
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_frozen_spectral",
+            "u": {
+              "npz_key": "repetition_2.numerical.outputs.3.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_2.numerical.outputs.3.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 7.444263607504944e-07,
+            "J": 0.9965684872592296,
+            "iter": 37,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_2.numerical.outputs.3.history_iter",
+              "shape": [
+                38
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_2.numerical.outputs.3.history_residual",
+              "shape": [
+                38
+              ],
+              "dtype": "float64"
+            }
+          }
+        ]
+      },
+      "methods": [
+        {
+          "method": "standard_hisd",
+          "label": "HiSD",
+          "status": "converged",
+          "converged": true,
+          "iterations": 33939,
+          "residual_points": 33940,
+          "final_residual": 9.99716925998432e-07,
+          "final_cost_J": 0.9965684872592303,
+          "final_index": 1,
+          "kappa_M0": 2080.502692490066,
+          "L_M0": 5246.481346257195,
+          "legacy_outer_history_time": 80.01820933399722,
+          "timing": {
+            "T_total": 80.13147820797167,
+            "T_setup_update": 0,
+            "T_apply_solve": 0,
+            "T_eig": 69.43927638378227,
+            "T_cert": 0.1048219169897493,
+            "T_shared_initial": 0.1102429999737069,
+            "T_H0_build": 0.10717033297987655,
+            "T_shared_spectrum": 0.002999834017828107,
+            "T_shared_other": 7.283297600224614e-05,
+            "T_method_initial": 0.003013375011505559,
+            "T_initial_eig": 0.0030085839971434325,
+            "T_outer": 80.01822183298646,
+            "T_metric_setup": 0,
+            "T_metric_apply": 0,
+            "T_metric_solve": 0,
+            "T_frame": 69.32609763278742,
+            "T_cert_Hessian": 0.10276129198609851,
+            "initial_setup_count": 0,
+            "setup_count": 0,
+            "update_count": 0,
+            "apply_count": 0,
+            "solve_count": 0,
+            "state_updates": 33939,
+            "frame_iterations": 169695,
+            "factorization_attempt_count": 0,
+            "factorization_failure_count": 0,
+            "certification_count": 1
+          }
+        },
+        {
+          "method": "p_hisd_H1",
+          "label": "Laplacian",
+          "status": "converged",
+          "converged": true,
+          "iterations": 841,
+          "residual_points": 842,
+          "final_residual": 9.879639023886598e-07,
+          "final_cost_J": 0.9965684872592296,
+          "final_index": 1,
+          "kappa_M0": 13.446464408793286,
+          "L_M0": 0.20160954862455935,
+          "legacy_outer_history_time": 2.0052150409901515,
+          "timing": {
+            "T_total": 2.1191421669500414,
+            "T_setup_update": 0.00013966698315925896,
+            "T_apply_solve": 0.03235568356467411,
+            "T_eig": 1.8514923872135114,
+            "T_cert": 0.1048508330131881,
+            "T_shared_initial": 0.1102429999737069,
+            "T_H0_build": 0.10717033297987655,
+            "T_shared_spectrum": 0.002999834017828107,
+            "T_shared_other": 7.283297600224614e-05,
+            "T_method_initial": 0.003677208995213732,
+            "T_initial_eig": 0.003528457978973165,
+            "T_outer": 2.005221957981121,
+            "T_metric_setup": 0.00013966698315925896,
+            "T_metric_apply": 0.01129566429881379,
+            "T_metric_solve": 0.02106001926586032,
+            "T_frame": 1.7377937622368336,
+            "T_cert_Hessian": 0.10292649999610148,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 4206,
+            "solve_count": 5046,
+            "state_updates": 841,
+            "frame_iterations": 4205,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.sparse.linalg.factorized: SuperLU"
+          }
+        },
+        {
+          "method": "p_hisd_shifted_cholesky",
+          "label": "shifted Cholesky",
+          "status": "converged",
+          "converged": true,
+          "iterations": 25,
+          "residual_points": 26,
+          "final_residual": 6.020542508920599e-07,
+          "final_cost_J": 0.9965684872592302,
+          "final_index": 1,
+          "kappa_M0": 2.288291690497745,
+          "L_M0": 0.9990386190088699,
+          "legacy_outer_history_time": 0.06527570800972171,
+          "timing": {
+            "T_total": 0.18176987493643537,
+            "T_setup_update": 0.002744708996033296,
+            "T_apply_solve": 0.0048617428401485085,
+            "T_eig": 0.1697813760547433,
+            "T_cert": 0.10589775000698864,
+            "T_shared_initial": 0.1102429999737069,
+            "T_H0_build": 0.10717033297987655,
+            "T_shared_spectrum": 0.002999834017828107,
+            "T_shared_other": 7.283297600224614e-05,
+            "T_method_initial": 0.006247458979487419,
+            "T_initial_eig": 0.0034991659922525287,
+            "T_outer": 0.06527941598324105,
+            "T_metric_setup": 0.002744708996033296,
+            "T_metric_apply": 0.0004152479814365506,
+            "T_metric_solve": 0.004446494858711958,
+            "T_frame": 0.05611204306478612,
+            "T_cert_Hessian": 0.1039809170179069,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 126,
+            "solve_count": 150,
+            "state_updates": 25,
+            "frame_iterations": 125,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+          }
+        },
+        {
+          "method": "p_hisd_frozen_spectral",
+          "label": "Spectral",
+          "status": "converged",
+          "converged": true,
+          "iterations": 37,
+          "residual_points": 38,
+          "final_residual": 7.444263607504944e-07,
+          "final_cost_J": 0.9965684872592296,
+          "final_index": 1,
+          "kappa_M0": 1.0039636064465662,
+          "L_M0": 0.9999980939642622,
+          "legacy_outer_history_time": 0.097824208001839,
+          "timing": {
+            "T_total": 0.21406145798391663,
+            "T_setup_update": 0.0026841250073630363,
+            "T_apply_solve": 0.006635836965870112,
+            "T_eig": 0.1976080420135986,
+            "T_cert": 0.10449695799616165,
+            "T_shared_initial": 0.1102429999737069,
+            "T_H0_build": 0.10717033297987655,
+            "T_shared_spectrum": 0.002999834017828107,
+            "T_shared_other": 7.283297600224614e-05,
+            "T_method_initial": 0.0059904580120928586,
+            "T_initial_eig": 0.0033037499815691262,
+            "T_outer": 0.09782799999811687,
+            "T_metric_setup": 0.0026841250073630363,
+            "T_metric_apply": 0.0005977140681352466,
+            "T_metric_solve": 0.0060381228977348655,
+            "T_frame": 0.08413412503432482,
+            "T_cert_Hessian": 0.10256283398484811,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 186,
+            "solve_count": 222,
+            "state_updates": 37,
+            "frame_iterations": 185,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+          }
+        }
+      ],
+      "legacy_history_times": [
+        {
+          "npz_key": "repetition_2.legacy_history_times.0",
+          "shape": [
+            33940
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_2.legacy_history_times.1",
+          "shape": [
+            842
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_2.legacy_history_times.2",
+          "shape": [
+            26
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_2.legacy_history_times.3",
+          "shape": [
+            38
+          ],
+          "dtype": "float64"
+        }
+      ],
+      "shared_timing": {
+        "T_H0_build": 0.10717033297987655,
+        "T_shared_spectrum": 0.002999834017828107,
+        "T_shared_initial": 0.1102429999737069,
+        "T_shared_other": 7.283297600224614e-05
+      },
+      "environment": {
+        "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+        "executable": "code/python/.shared_venv/bin/python",
+        "numpy": "2.4.1",
+        "scipy": "1.17.0",
+        "matplotlib": "3.10.8",
+        "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "VECLIB_MAXIMUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null,
+          "BLIS_NUM_THREADS": null
+        },
+        "numpy_configuration": "{\n  \"Compilers\": {\n    \"c\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"cc\"\n    },\n    \"cython\": {\n      \"name\": \"cython\",\n      \"linker\": \"cython\",\n      \"version\": \"3.2.4\",\n      \"commands\": \"cython\"\n    },\n    \"c++\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"c++\"\n    }\n  },\n  \"Machine Information\": {\n    \"host\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"build\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    }\n  },\n  \"Build Dependencies\": {\n    \"blas\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    },\n    \"lapack\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    }\n  },\n  \"Python Information\": {\n    \"path\": \"python\",\n    \"version\": \"3.13\"\n  },\n  \"SIMD Extensions\": {\n    \"baseline\": [\n      \"NEON\",\n      \"NEON_FP16\",\n      \"NEON_VFPV4\",\n      \"ASIMD\"\n    ],\n    \"found\": [\n      \"ASIMDHP\",\n      \"ASIMDDP\"\n    ],\n    \"not found\": [\n      \"ASIMDFHM\"\n    ]\n  }\n}\n"
+      },
+      "process_id": 44200,
+      "output_dir": "outputs/7.6",
+      "rng_state_unchanged": true,
+      "mode": "formal2",
+      "repetition": 2
+    },
+    {
+      "numerical": {
+        "parameters": {
+          "H_GRID": 0.00390625,
+          "N_GRID": 255,
+          "LAMBDA": 0.02,
+          "U0_AMPLITUDE": 0.5,
+          "U0_MODE": 1,
+          "TOL": 1e-06,
+          "MAX_ITER": 2000000,
+          "PLOT_MAX_ITER": 300,
+          "HV_EPS": 1e-05,
+          "STATE_TOL": 1e-10,
+          "STATE_MAXIT": 30,
+          "DIVERGE_GRAD": 100000000.0,
+          "DIVERGE_UINF": 10000.0,
+          "STANDARD_ETA": 0.0001,
+          "COMMON_TAU": 0.001,
+          "DIRECTION_ITERS": 5,
+          "PHISD_ETA": 1,
+          "INCLUDE_H1": true,
+          "INCLUDE_SHIFTED_CHOLESKY": true,
+          "INCLUDE_FROZEN_SPECTRAL": true,
+          "SHIFT_FACTOR": 2.0,
+          "EPS_HESSIAN_FACTOR": 1e-06,
+          "EPS_DENSE_METRIC_FACTOR": 1e-12,
+          "OUTPUT_FIG": "6.pdf",
+          "N": 255,
+          "effective_arguments": {
+            "tol": 1e-06,
+            "max_iter": 2000000,
+            "plot_max_iter": 300,
+            "hv_eps": 1e-05
+          }
+        },
+        "initial": {
+          "u0": {
+            "npz_key": "repetition_3.numerical.initial.u0",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "g0": {
+            "npz_key": "repetition_3.numerical.initial.g0",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "H0": {
+            "npz_key": "repetition_3.numerical.initial.H0",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "eig_ord": {
+            "npz_key": "repetition_3.numerical.initial.eig_ord",
+            "shape": [
+              255
+            ],
+            "dtype": "float64"
+          },
+          "Q0": {
+            "npz_key": "repetition_3.numerical.initial.Q0",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "lam_min": -2.521737349918016,
+          "h0_norm": 5246.481346257195,
+          "delta": 5.048721181182289,
+          "M_shifted_chol": {
+            "npz_key": "repetition_3.numerical.initial.M_shifted_chol",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          },
+          "eps_spec": 0.01,
+          "M_spec": {
+            "npz_key": "repetition_3.numerical.initial.M_spec",
+            "shape": [
+              255,
+              255
+            ],
+            "dtype": "float64"
+          }
+        },
+        "methods": [
+          {
+            "name": "standard_hisd",
+            "label": "HiSD",
+            "standard": true,
+            "v0": {
+              "npz_key": "repetition_3.numerical.methods.0.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 0.0001,
+            "tau": 0.001,
+            "kappa_M0": 2080.502692490066,
+            "L_M0": 5246.481346257195,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_3.numerical.methods.0.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_H1",
+            "label": "Laplacian",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_3.numerical.methods.1.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 13.446464408793286,
+            "L_M0": 0.20160954862455935,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_3.numerical.methods.1.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_shifted_cholesky",
+            "label": "shifted Cholesky",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_3.numerical.methods.2.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 2.288291690497745,
+            "L_M0": 0.9990386190088699,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_3.numerical.methods.2.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "name": "p_hisd_frozen_spectral",
+            "label": "Spectral",
+            "standard": false,
+            "v0": {
+              "npz_key": "repetition_3.numerical.methods.3.v0",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "eta": 1.0,
+            "tau": 0.001,
+            "kappa_M0": 1.0039636064465662,
+            "L_M0": 0.9999980939642622,
+            "block_size": -1,
+            "alpha": null,
+            "metric_dense": {
+              "npz_key": "repetition_3.numerical.methods.3.metric_dense",
+              "shape": [
+                255,
+                255
+              ],
+              "dtype": "float64"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "method": "standard_hisd",
+            "u": {
+              "npz_key": "repetition_3.numerical.outputs.0.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_3.numerical.outputs.0.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 9.99716925998432e-07,
+            "J": 0.9965684872592303,
+            "iter": 33939,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_3.numerical.outputs.0.history_iter",
+              "shape": [
+                33940
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_3.numerical.outputs.0.history_residual",
+              "shape": [
+                33940
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_H1",
+            "u": {
+              "npz_key": "repetition_3.numerical.outputs.1.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_3.numerical.outputs.1.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 9.879639023886598e-07,
+            "J": 0.9965684872592296,
+            "iter": 841,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_3.numerical.outputs.1.history_iter",
+              "shape": [
+                842
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_3.numerical.outputs.1.history_residual",
+              "shape": [
+                842
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_shifted_cholesky",
+            "u": {
+              "npz_key": "repetition_3.numerical.outputs.2.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_3.numerical.outputs.2.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 6.020542508920599e-07,
+            "J": 0.9965684872592302,
+            "iter": 25,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_3.numerical.outputs.2.history_iter",
+              "shape": [
+                26
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_3.numerical.outputs.2.history_residual",
+              "shape": [
+                26
+              ],
+              "dtype": "float64"
+            }
+          },
+          {
+            "method": "p_hisd_frozen_spectral",
+            "u": {
+              "npz_key": "repetition_3.numerical.outputs.3.u",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "y": {
+              "npz_key": "repetition_3.numerical.outputs.3.y",
+              "shape": [
+                255
+              ],
+              "dtype": "float64"
+            },
+            "grad": 7.444263607504944e-07,
+            "J": 0.9965684872592296,
+            "iter": 37,
+            "status": "converged",
+            "converged": true,
+            "final_index": 1,
+            "history_iter": {
+              "npz_key": "repetition_3.numerical.outputs.3.history_iter",
+              "shape": [
+                38
+              ],
+              "dtype": "int64"
+            },
+            "history_residual": {
+              "npz_key": "repetition_3.numerical.outputs.3.history_residual",
+              "shape": [
+                38
+              ],
+              "dtype": "float64"
+            }
+          }
+        ]
+      },
+      "methods": [
+        {
+          "method": "standard_hisd",
+          "label": "HiSD",
+          "status": "converged",
+          "converged": true,
+          "iterations": 33939,
+          "residual_points": 33940,
+          "final_residual": 9.99716925998432e-07,
+          "final_cost_J": 0.9965684872592303,
+          "final_index": 1,
+          "kappa_M0": 2080.502692490066,
+          "L_M0": 5246.481346257195,
+          "legacy_outer_history_time": 81.21420812502038,
+          "timing": {
+            "T_total": 81.32218203999219,
+            "T_setup_update": 0,
+            "T_apply_solve": 0,
+            "T_eig": 70.47120861741132,
+            "T_cert": 0.10571537501527928,
+            "T_shared_initial": 0.10496283299289644,
+            "T_H0_build": 0.10170349999680184,
+            "T_shared_spectrum": 0.0032035420008469373,
+            "T_shared_other": 5.579099524766207e-05,
+            "T_method_initial": 0.0030015409865882248,
+            "T_initial_eig": 0.0029988749884068966,
+            "T_outer": 81.2142176660127,
+            "T_metric_setup": 0,
+            "T_metric_apply": 0,
+            "T_metric_solve": 0,
+            "T_frame": 70.36330270042527,
+            "T_cert_Hessian": 0.10377012501703575,
+            "initial_setup_count": 0,
+            "setup_count": 0,
+            "update_count": 0,
+            "apply_count": 0,
+            "solve_count": 0,
+            "state_updates": 33939,
+            "frame_iterations": 169695,
+            "factorization_attempt_count": 0,
+            "factorization_failure_count": 0,
+            "certification_count": 1
+          }
+        },
+        {
+          "method": "p_hisd_H1",
+          "label": "Laplacian",
+          "status": "converged",
+          "converged": true,
+          "iterations": 841,
+          "residual_points": 842,
+          "final_residual": 9.879639023886598e-07,
+          "final_cost_J": 0.9965684872592296,
+          "final_index": 1,
+          "kappa_M0": 13.446464408793286,
+          "L_M0": 0.20160954862455935,
+          "legacy_outer_history_time": 2.101625250012148,
+          "timing": {
+            "T_total": 2.210076039977139,
+            "T_setup_update": 7.52909982111305e-05,
+            "T_apply_solve": 0.0325003131874837,
+            "T_eig": 1.9301565032219514,
+            "T_cert": 0.1096163339971099,
+            "T_shared_initial": 0.10496283299289644,
+            "T_H0_build": 0.10170349999680184,
+            "T_shared_spectrum": 0.0032035420008469373,
+            "T_shared_other": 5.579099524766207e-05,
+            "T_method_initial": 0.0034796659892890602,
+            "T_initial_eig": 0.0033972090168390423,
+            "T_outer": 2.1016335409949534,
+            "T_metric_setup": 7.52909982111305e-05,
+            "T_metric_apply": 0.011400028975913301,
+            "T_metric_solve": 0.021100284211570397,
+            "T_frame": 1.8218522522074636,
+            "T_cert_Hessian": 0.1076992500165943,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 4206,
+            "solve_count": 5046,
+            "state_updates": 841,
+            "frame_iterations": 4205,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.sparse.linalg.factorized: SuperLU"
+          }
+        },
+        {
+          "method": "p_hisd_shifted_cholesky",
+          "label": "shifted Cholesky",
+          "status": "converged",
+          "converged": true,
+          "iterations": 25,
+          "residual_points": 26,
+          "final_residual": 6.020542508920599e-07,
+          "final_cost_J": 0.9965684872592302,
+          "final_index": 1,
+          "kappa_M0": 2.288291690497745,
+          "L_M0": 0.9990386190088699,
+          "legacy_outer_history_time": 0.06787633299245499,
+          "timing": {
+            "T_total": 0.1790352500102017,
+            "T_setup_update": 0.002894582983572036,
+            "T_apply_solve": 0.004508206126047298,
+            "T_eig": 0.16663562107714824,
+            "T_cert": 0.1102139170106966,
+            "T_shared_initial": 0.10496283299289644,
+            "T_H0_build": 0.10170349999680184,
+            "T_shared_spectrum": 0.0032035420008469373,
+            "T_shared_other": 5.579099524766207e-05,
+            "T_method_initial": 0.006188458006363362,
+            "T_initial_eig": 0.0032917920034378767,
+            "T_outer": 0.06788395901094191,
+            "T_metric_setup": 0.002894582983572036,
+            "T_metric_apply": 0.0003991698904428631,
+            "T_metric_solve": 0.004109036235604435,
+            "T_frame": 0.05843678707606159,
+            "T_cert_Hessian": 0.10830045799957588,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 126,
+            "solve_count": 150,
+            "state_updates": 25,
+            "frame_iterations": 125,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+          }
+        },
+        {
+          "method": "p_hisd_frozen_spectral",
+          "label": "Spectral",
+          "status": "converged",
+          "converged": true,
+          "iterations": 37,
+          "residual_points": 38,
+          "final_residual": 7.444263607504944e-07,
+          "final_cost_J": 0.9965684872592296,
+          "final_index": 1,
+          "kappa_M0": 1.0039636064465662,
+          "L_M0": 0.9999980939642622,
+          "legacy_outer_history_time": 0.10083458299050108,
+          "timing": {
+            "T_total": 0.21207820798736066,
+            "T_setup_update": 0.002975041017634794,
+            "T_apply_solve": 0.0063976267410907894,
+            "T_eig": 0.1949252950726077,
+            "T_cert": 0.10778408299665898,
+            "T_shared_initial": 0.10496283299289644,
+            "T_H0_build": 0.10170349999680184,
+            "T_shared_spectrum": 0.0032035420008469373,
+            "T_shared_other": 5.579099524766207e-05,
+            "T_method_initial": 0.006276208005147055,
+            "T_initial_eig": 0.003299082978628576,
+            "T_outer": 0.10083916698931716,
+            "T_metric_setup": 0.002975041017634794,
+            "T_metric_apply": 0.0004975518095307052,
+            "T_metric_solve": 0.005900074931560084,
+            "T_frame": 0.08671917009633034,
+            "T_cert_Hessian": 0.10583608399610966,
+            "initial_setup_count": 1,
+            "setup_count": 1,
+            "update_count": 0,
+            "apply_count": 186,
+            "solve_count": 222,
+            "state_updates": 37,
+            "frame_iterations": 185,
+            "factorization_attempt_count": 1,
+            "factorization_failure_count": 0,
+            "certification_count": 1,
+            "factorization_backend": "scipy.linalg.cho_factor / cho_solve"
+          }
+        }
+      ],
+      "legacy_history_times": [
+        {
+          "npz_key": "repetition_3.legacy_history_times.0",
+          "shape": [
+            33940
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_3.legacy_history_times.1",
+          "shape": [
+            842
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_3.legacy_history_times.2",
+          "shape": [
+            26
+          ],
+          "dtype": "float64"
+        },
+        {
+          "npz_key": "repetition_3.legacy_history_times.3",
+          "shape": [
+            38
+          ],
+          "dtype": "float64"
+        }
+      ],
+      "shared_timing": {
+        "T_H0_build": 0.10170349999680184,
+        "T_shared_spectrum": 0.0032035420008469373,
+        "T_shared_initial": 0.10496283299289644,
+        "T_shared_other": 5.579099524766207e-05
+      },
+      "environment": {
+        "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+        "executable": "code/python/.shared_venv/bin/python",
+        "numpy": "2.4.1",
+        "scipy": "1.17.0",
+        "matplotlib": "3.10.8",
+        "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+        "machine": "arm64",
+        "thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "VECLIB_MAXIMUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null,
+          "BLIS_NUM_THREADS": null
+        },
+        "numpy_configuration": "{\n  \"Compilers\": {\n    \"c\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"cc\"\n    },\n    \"cython\": {\n      \"name\": \"cython\",\n      \"linker\": \"cython\",\n      \"version\": \"3.2.4\",\n      \"commands\": \"cython\"\n    },\n    \"c++\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"c++\"\n    }\n  },\n  \"Machine Information\": {\n    \"host\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"build\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    }\n  },\n  \"Build Dependencies\": {\n    \"blas\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    },\n    \"lapack\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    }\n  },\n  \"Python Information\": {\n    \"path\": \"python\",\n    \"version\": \"3.13\"\n  },\n  \"SIMD Extensions\": {\n    \"baseline\": [\n      \"NEON\",\n      \"NEON_FP16\",\n      \"NEON_VFPV4\",\n      \"ASIMD\"\n    ],\n    \"found\": [\n      \"ASIMDHP\",\n      \"ASIMDDP\"\n    ],\n    \"not found\": [\n      \"ASIMDFHM\"\n    ]\n  }\n}\n"
+      },
+      "process_id": 44314,
+      "output_dir": "outputs/7.6",
+      "rng_state_unchanged": true,
+      "mode": "formal3",
+      "repetition": 3
+    }
+  ]
+}

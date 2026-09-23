@@ -1,0 +1,1084 @@
+{
+  "status": "COMPLETE_WITH_FAILURES",
+  "mode": "formal",
+  "started_utc": "2026-09-21T00:03:15.329042+00:00",
+  "script": "code/7.3/run.py",
+  "output_dir": "outputs/7.3",
+  "spec": {
+    "mode": "formal",
+    "numerical_protocol": {
+      "protocol_version": "ROSENBROCK_PC_V2",
+      "problem": {
+        "d": 1000,
+        "index": 5,
+        "s_neg": -50000.0,
+        "s_pos": 1.0,
+        "initial_radius": 0.1,
+        "metric": "once_frozen_block_jacobi",
+        "block_size": 20,
+        "epsilon_M": 0.01
+      },
+      "seeds": {
+        "historical_and_main": 1,
+        "development": [
+          101,
+          102
+        ],
+        "held_out": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "production": [
+          1,
+          11,
+          12,
+          13,
+          14
+        ]
+      },
+      "stopping": {
+        "raw_gradient_tolerance": 1e-06,
+        "target_distance_tolerance": 0.01,
+        "index_delta_abs": 1e-06,
+        "state_norm_guard": 100000000.0,
+        "frame_frobenius_norm_guard": 100000000.0
+      },
+      "budgets": {
+        "screen_max_updates": 4000,
+        "screen_max_seconds": 60,
+        "full_max_updates": 2000000,
+        "full_max_seconds": 300,
+        "tuning_total_seconds": 7200,
+        "production_total_seconds": 7200
+      },
+      "production_timing": {
+        "initial_repeats": 3,
+        "fast_threshold_seconds": 0.1,
+        "fast_repeats_total": 9,
+        "order_rng_seed": 6090603
+      }
+    },
+    "locked_configs": {
+      "AHiSD": {
+        "J": 5,
+        "backend": "RQ",
+        "eta_x": 3.150000000000001e-05,
+        "method": "AHiSD",
+        "momentum": 0.98,
+        "tau_v": 1e-05
+      },
+      "BBHiSD": {
+        "J": 5,
+        "backend": "RQ",
+        "displacement_cap": 2.0,
+        "eta_x_initial": 1e-05,
+        "method": "BBHiSD",
+        "tau_v": 1e-05
+      },
+      "HiSD": {
+        "J": 5,
+        "backend": "RQ",
+        "eta_x": 2e-05,
+        "method": "HiSD",
+        "tau_v": 1e-05
+      },
+      "PCHiSD": {
+        "backend": "PC",
+        "eta_v": 2.5e-06,
+        "eta_x": 2e-05,
+        "method": "PCHiSD"
+      },
+      "pHiSD": {
+        "J": 5,
+        "backend": "RQ",
+        "eta_x": 0.95,
+        "method": "pHiSD",
+        "tau_v": 0.4
+      }
+    },
+    "production_seeds": [
+      1,
+      11,
+      12,
+      13,
+      14
+    ],
+    "development_seeds": [
+      101,
+      102
+    ],
+    "max_updates_per_solve": 2000000,
+    "max_seconds_per_solve": 300,
+    "sensitivity_multipliers": [
+      0.5,
+      0.75,
+      1.0,
+      1.25,
+      1.5
+    ],
+    "sensitivity_repetitions": 3,
+    "initial_comparison_solves": 75,
+    "sensitivity_solves": 60,
+    "comparison_extra_repetitions": "3 to 9 if first-three median time < 0.1 s",
+    "tuning": "Previously locked configurations only; historical parameter tuning is not rerun.",
+    "budget_scope": "Per-solve manuscript limits only; historical tuning/batch resource budgets are not applied.",
+    "outcomes": "Retain all runs at the prespecified manuscript settings, regardless of outcome.",
+    "table3_aggregation": "Median over seeds of actual median-time-run counts and per-seed median total times.",
+    "table4_aggregation": "Geometric mean of per-seed median times only when all prescribed runs succeed.",
+    "total_time_scope": "Original event-clock total: problem setup, metric/frame operations, iteration and endpoint certification; excludes output/plotting.",
+    "products": [
+      "3.pdf",
+      "figure3_history.csv",
+      "table3.csv",
+      "table4.csv",
+      "bb_over_p.json",
+      "paper_summary.md",
+      "raw_runs.jsonl",
+      "protocol.json"
+    ]
+  },
+  "environment": {
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 11:23:37) [Clang 14.0.6 ]",
+    "executable": "code/python/.shared_venv/bin/python",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu": "Apple M5",
+    "logical_cpu_count": 10,
+    "versions": {
+      "numpy": "2.4.1",
+      "scipy": "1.17.0",
+      "matplotlib": "3.10.8",
+      "threadpoolctl": "3.6.0"
+    },
+    "initial_policy": {
+      "environment": {
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "VECLIB_MAXIMUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1"
+      },
+      "numpy_or_scipy_loaded_when_first_configured": false,
+      "bytecode_disabled": true,
+      "accelerate": {
+        "before": 0,
+        "set_return": 0,
+        "after": 1,
+        "required_enum": 1,
+        "scope": "Calling thread: subsequent BLAS and LAPACK calls"
+      }
+    },
+    "current_policy": {
+      "threadpools": [],
+      "accelerate_current_enum": 1,
+      "threadpoolctl_observability": "Native single-thread policy checked directly."
+    },
+    "build_configuration": "{\n  \"Compilers\": {\n    \"c\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"cc\"\n    },\n    \"cython\": {\n      \"name\": \"cython\",\n      \"linker\": \"cython\",\n      \"version\": \"3.2.4\",\n      \"commands\": \"cython\"\n    },\n    \"c++\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"c++\"\n    }\n  },\n  \"Machine Information\": {\n    \"host\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"build\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    }\n  },\n  \"Build Dependencies\": {\n    \"blas\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    },\n    \"lapack\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    }\n  },\n  \"Python Information\": {\n    \"path\": \"python\",\n    \"version\": \"3.13\"\n  },\n  \"SIMD Extensions\": {\n    \"baseline\": [\n      \"NEON\",\n      \"NEON_FP16\",\n      \"NEON_VFPV4\",\n      \"ASIMD\"\n    ],\n    \"found\": [\n      \"ASIMDHP\",\n      \"ASIMDDP\"\n    ],\n    \"not found\": [\n      \"ASIMDFHM\"\n    ]\n  }\n}\n{\n  \"Compilers\": {\n    \"c\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"cc\"\n    },\n    \"cython\": {\n      \"name\": \"cython\",\n      \"linker\": \"cython\",\n      \"version\": \"3.2.4\",\n      \"commands\": \"cython\"\n    },\n    \"c++\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"c++\"\n    },\n    \"fortran\": {\n      \"name\": \"gcc\",\n      \"linker\": \"ld64\",\n      \"version\": \"13.4.0\",\n      \"commands\": \"gfortran\"\n    },\n    \"pythran\": {\n      \"version\": \"0.18.1\",\n      \"include directory\": \"../../../../../..pythran\"\n    }\n  },\n  \"Machine Information\": {\n    \"host\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"build\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"cross-compiled\": false\n  },\n  \"Build Dependencies\": {\n    \"blas\": {\n      \"name\": \"Accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"extraframeworks\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\",\n      \"has ilp64\": false\n    },\n    \"lapack\": {\n      \"name\": \"Accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"extraframeworks\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\",\n      \"has ilp64\": false\n    },\n    \"pybind11\": {\n      \"name\": \"pybind11\",\n      \"version\": \"3.0.1\",\n      \"detection method\": \"config-tool\",\n      \"include directory\": \"unknown\"\n    }\n  },\n  \"Python Information\": {\n    \"path\": \"python\",\n    \"version\": \"3.13\"\n  }\n}\n",
+    "configuration_warnings": [
+      "Install `pyyaml` for better output",
+      "Install `pyyaml` for better output"
+    ]
+  },
+  "schedule": {
+    "comparison_initial": [
+      [
+        "AHiSD",
+        11,
+        2
+      ],
+      [
+        "AHiSD",
+        14,
+        3
+      ],
+      [
+        "AHiSD",
+        12,
+        2
+      ],
+      [
+        "HiSD",
+        13,
+        2
+      ],
+      [
+        "pHiSD",
+        11,
+        1
+      ],
+      [
+        "PCHiSD",
+        11,
+        2
+      ],
+      [
+        "HiSD",
+        14,
+        2
+      ],
+      [
+        "BBHiSD",
+        11,
+        2
+      ],
+      [
+        "PCHiSD",
+        12,
+        1
+      ],
+      [
+        "PCHiSD",
+        1,
+        2
+      ],
+      [
+        "pHiSD",
+        13,
+        2
+      ],
+      [
+        "pHiSD",
+        11,
+        2
+      ],
+      [
+        "BBHiSD",
+        12,
+        3
+      ],
+      [
+        "pHiSD",
+        14,
+        3
+      ],
+      [
+        "HiSD",
+        1,
+        1
+      ],
+      [
+        "PCHiSD",
+        12,
+        3
+      ],
+      [
+        "PCHiSD",
+        14,
+        1
+      ],
+      [
+        "AHiSD",
+        13,
+        3
+      ],
+      [
+        "HiSD",
+        13,
+        1
+      ],
+      [
+        "HiSD",
+        1,
+        2
+      ],
+      [
+        "HiSD",
+        14,
+        1
+      ],
+      [
+        "BBHiSD",
+        13,
+        2
+      ],
+      [
+        "HiSD",
+        11,
+        2
+      ],
+      [
+        "PCHiSD",
+        13,
+        2
+      ],
+      [
+        "PCHiSD",
+        1,
+        3
+      ],
+      [
+        "pHiSD",
+        13,
+        3
+      ],
+      [
+        "BBHiSD",
+        11,
+        1
+      ],
+      [
+        "HiSD",
+        14,
+        3
+      ],
+      [
+        "AHiSD",
+        14,
+        1
+      ],
+      [
+        "pHiSD",
+        14,
+        1
+      ],
+      [
+        "pHiSD",
+        1,
+        2
+      ],
+      [
+        "AHiSD",
+        1,
+        2
+      ],
+      [
+        "BBHiSD",
+        14,
+        1
+      ],
+      [
+        "HiSD",
+        12,
+        1
+      ],
+      [
+        "AHiSD",
+        11,
+        3
+      ],
+      [
+        "pHiSD",
+        14,
+        2
+      ],
+      [
+        "BBHiSD",
+        14,
+        2
+      ],
+      [
+        "pHiSD",
+        13,
+        1
+      ],
+      [
+        "HiSD",
+        11,
+        1
+      ],
+      [
+        "pHiSD",
+        11,
+        3
+      ],
+      [
+        "PCHiSD",
+        11,
+        3
+      ],
+      [
+        "pHiSD",
+        12,
+        2
+      ],
+      [
+        "BBHiSD",
+        12,
+        2
+      ],
+      [
+        "PCHiSD",
+        1,
+        1
+      ],
+      [
+        "HiSD",
+        13,
+        3
+      ],
+      [
+        "PCHiSD",
+        12,
+        2
+      ],
+      [
+        "HiSD",
+        12,
+        2
+      ],
+      [
+        "pHiSD",
+        1,
+        1
+      ],
+      [
+        "AHiSD",
+        1,
+        1
+      ],
+      [
+        "AHiSD",
+        13,
+        2
+      ],
+      [
+        "AHiSD",
+        11,
+        1
+      ],
+      [
+        "AHiSD",
+        12,
+        3
+      ],
+      [
+        "PCHiSD",
+        13,
+        3
+      ],
+      [
+        "AHiSD",
+        12,
+        1
+      ],
+      [
+        "HiSD",
+        1,
+        3
+      ],
+      [
+        "PCHiSD",
+        11,
+        1
+      ],
+      [
+        "BBHiSD",
+        11,
+        3
+      ],
+      [
+        "PCHiSD",
+        13,
+        1
+      ],
+      [
+        "pHiSD",
+        1,
+        3
+      ],
+      [
+        "pHiSD",
+        12,
+        3
+      ],
+      [
+        "BBHiSD",
+        1,
+        3
+      ],
+      [
+        "BBHiSD",
+        12,
+        1
+      ],
+      [
+        "AHiSD",
+        14,
+        2
+      ],
+      [
+        "HiSD",
+        11,
+        3
+      ],
+      [
+        "BBHiSD",
+        14,
+        3
+      ],
+      [
+        "AHiSD",
+        1,
+        3
+      ],
+      [
+        "pHiSD",
+        12,
+        1
+      ],
+      [
+        "PCHiSD",
+        14,
+        3
+      ],
+      [
+        "HiSD",
+        12,
+        3
+      ],
+      [
+        "BBHiSD",
+        1,
+        1
+      ],
+      [
+        "AHiSD",
+        13,
+        1
+      ],
+      [
+        "BBHiSD",
+        13,
+        3
+      ],
+      [
+        "PCHiSD",
+        14,
+        2
+      ],
+      [
+        "BBHiSD",
+        1,
+        2
+      ],
+      [
+        "BBHiSD",
+        13,
+        1
+      ]
+    ],
+    "comparison_supplemental": [
+      [
+        "pHiSD",
+        14,
+        6
+      ],
+      [
+        "pHiSD",
+        14,
+        5
+      ],
+      [
+        "pHiSD",
+        11,
+        6
+      ],
+      [
+        "pHiSD",
+        13,
+        8
+      ],
+      [
+        "pHiSD",
+        12,
+        9
+      ],
+      [
+        "pHiSD",
+        12,
+        6
+      ],
+      [
+        "pHiSD",
+        13,
+        7
+      ],
+      [
+        "pHiSD",
+        13,
+        6
+      ],
+      [
+        "pHiSD",
+        12,
+        7
+      ],
+      [
+        "pHiSD",
+        14,
+        9
+      ],
+      [
+        "pHiSD",
+        14,
+        8
+      ],
+      [
+        "pHiSD",
+        12,
+        4
+      ],
+      [
+        "pHiSD",
+        11,
+        8
+      ],
+      [
+        "pHiSD",
+        1,
+        5
+      ],
+      [
+        "pHiSD",
+        11,
+        4
+      ],
+      [
+        "pHiSD",
+        11,
+        9
+      ],
+      [
+        "pHiSD",
+        12,
+        8
+      ],
+      [
+        "pHiSD",
+        1,
+        4
+      ],
+      [
+        "pHiSD",
+        11,
+        7
+      ],
+      [
+        "pHiSD",
+        13,
+        9
+      ],
+      [
+        "pHiSD",
+        1,
+        8
+      ],
+      [
+        "pHiSD",
+        12,
+        5
+      ],
+      [
+        "pHiSD",
+        1,
+        9
+      ],
+      [
+        "pHiSD",
+        11,
+        5
+      ],
+      [
+        "pHiSD",
+        13,
+        4
+      ],
+      [
+        "pHiSD",
+        1,
+        7
+      ],
+      [
+        "pHiSD",
+        14,
+        7
+      ],
+      [
+        "pHiSD",
+        1,
+        6
+      ],
+      [
+        "pHiSD",
+        13,
+        5
+      ],
+      [
+        "pHiSD",
+        14,
+        4
+      ]
+    ],
+    "sensitivity": [
+      [
+        "HiSD",
+        1.0,
+        101,
+        1
+      ],
+      [
+        "pHiSD",
+        1.0,
+        101,
+        1
+      ],
+      [
+        "HiSD",
+        1.0,
+        101,
+        2
+      ],
+      [
+        "pHiSD",
+        1.0,
+        101,
+        2
+      ],
+      [
+        "HiSD",
+        1.0,
+        101,
+        3
+      ],
+      [
+        "pHiSD",
+        1.0,
+        101,
+        3
+      ],
+      [
+        "HiSD",
+        1.0,
+        102,
+        1
+      ],
+      [
+        "pHiSD",
+        1.0,
+        102,
+        1
+      ],
+      [
+        "HiSD",
+        1.0,
+        102,
+        2
+      ],
+      [
+        "pHiSD",
+        1.0,
+        102,
+        2
+      ],
+      [
+        "HiSD",
+        1.0,
+        102,
+        3
+      ],
+      [
+        "pHiSD",
+        1.0,
+        102,
+        3
+      ],
+      [
+        "HiSD",
+        0.5,
+        101,
+        1
+      ],
+      [
+        "pHiSD",
+        0.5,
+        101,
+        1
+      ],
+      [
+        "HiSD",
+        0.5,
+        101,
+        2
+      ],
+      [
+        "pHiSD",
+        0.5,
+        101,
+        2
+      ],
+      [
+        "HiSD",
+        0.5,
+        101,
+        3
+      ],
+      [
+        "pHiSD",
+        0.5,
+        101,
+        3
+      ],
+      [
+        "HiSD",
+        0.5,
+        102,
+        1
+      ],
+      [
+        "pHiSD",
+        0.5,
+        102,
+        1
+      ],
+      [
+        "HiSD",
+        0.5,
+        102,
+        2
+      ],
+      [
+        "pHiSD",
+        0.5,
+        102,
+        2
+      ],
+      [
+        "HiSD",
+        0.5,
+        102,
+        3
+      ],
+      [
+        "pHiSD",
+        0.5,
+        102,
+        3
+      ],
+      [
+        "HiSD",
+        0.75,
+        101,
+        1
+      ],
+      [
+        "pHiSD",
+        0.75,
+        101,
+        1
+      ],
+      [
+        "HiSD",
+        0.75,
+        101,
+        2
+      ],
+      [
+        "pHiSD",
+        0.75,
+        101,
+        2
+      ],
+      [
+        "HiSD",
+        0.75,
+        101,
+        3
+      ],
+      [
+        "pHiSD",
+        0.75,
+        101,
+        3
+      ],
+      [
+        "HiSD",
+        0.75,
+        102,
+        1
+      ],
+      [
+        "pHiSD",
+        0.75,
+        102,
+        1
+      ],
+      [
+        "HiSD",
+        0.75,
+        102,
+        2
+      ],
+      [
+        "pHiSD",
+        0.75,
+        102,
+        2
+      ],
+      [
+        "HiSD",
+        0.75,
+        102,
+        3
+      ],
+      [
+        "pHiSD",
+        0.75,
+        102,
+        3
+      ],
+      [
+        "HiSD",
+        1.25,
+        101,
+        1
+      ],
+      [
+        "pHiSD",
+        1.25,
+        101,
+        1
+      ],
+      [
+        "HiSD",
+        1.25,
+        101,
+        2
+      ],
+      [
+        "pHiSD",
+        1.25,
+        101,
+        2
+      ],
+      [
+        "HiSD",
+        1.25,
+        101,
+        3
+      ],
+      [
+        "pHiSD",
+        1.25,
+        101,
+        3
+      ],
+      [
+        "HiSD",
+        1.25,
+        102,
+        1
+      ],
+      [
+        "pHiSD",
+        1.25,
+        102,
+        1
+      ],
+      [
+        "HiSD",
+        1.25,
+        102,
+        2
+      ],
+      [
+        "pHiSD",
+        1.25,
+        102,
+        2
+      ],
+      [
+        "HiSD",
+        1.25,
+        102,
+        3
+      ],
+      [
+        "pHiSD",
+        1.25,
+        102,
+        3
+      ],
+      [
+        "HiSD",
+        1.5,
+        101,
+        1
+      ],
+      [
+        "pHiSD",
+        1.5,
+        101,
+        1
+      ],
+      [
+        "HiSD",
+        1.5,
+        101,
+        2
+      ],
+      [
+        "pHiSD",
+        1.5,
+        101,
+        2
+      ],
+      [
+        "HiSD",
+        1.5,
+        101,
+        3
+      ],
+      [
+        "pHiSD",
+        1.5,
+        101,
+        3
+      ],
+      [
+        "HiSD",
+        1.5,
+        102,
+        1
+      ],
+      [
+        "pHiSD",
+        1.5,
+        102,
+        1
+      ],
+      [
+        "HiSD",
+        1.5,
+        102,
+        2
+      ],
+      [
+        "pHiSD",
+        1.5,
+        102,
+        2
+      ],
+      [
+        "HiSD",
+        1.5,
+        102,
+        3
+      ],
+      [
+        "pHiSD",
+        1.5,
+        102,
+        3
+      ]
+    ]
+  },
+  "completed_runs": 165,
+  "finished_utc": "2026-09-21T02:43:19.181391+00:00",
+  "final_thread_policy": {
+    "threadpools": [],
+    "accelerate_current_enum": 1,
+    "threadpoolctl_observability": "Native single-thread policy checked directly."
+  }
+}

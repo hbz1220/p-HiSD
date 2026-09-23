@@ -1,0 +1,38 @@
+{
+  "HiSD": {
+    "overall_success_percent_range": [
+      0.0,
+      100.0
+    ],
+    "low_saddle_percent_range": [
+      0.0,
+      1.171875
+    ],
+    "eta_1e_4": {
+      "eta": 0.0001,
+      "N_H": 506,
+      "N_L": 6,
+      "N_other": 0,
+      "unsuccessful": 0
+    }
+  },
+  "SI-pHiSD": {
+    "overall_success_percent_range": [
+      89.0625,
+      100.0
+    ],
+    "low_saddle_percent_range": [
+      85.15625,
+      91.796875
+    ],
+    "eta_1e_4": {
+      "eta": 0.0001,
+      "N_H": 0,
+      "N_L": 456,
+      "N_other": 0,
+      "unsuccessful": 56
+    }
+  },
+  "unexpected_certified_saddles": 0,
+  "interpretation": "All index-1 certified saddles count toward overall success. If N_other is nonzero, update the manuscript's two-saddle interpretation."
+}

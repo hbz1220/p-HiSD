@@ -1,0 +1,9 @@
+.DS_Store
+__MACOSX/
+__pycache__/
+*.py[cod]
+.venv/
+.shared_venv/
+outputs/run_all/
+outputs/7.2/.scan.lock
+backups/

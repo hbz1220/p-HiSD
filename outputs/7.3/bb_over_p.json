@@ -1,0 +1,36 @@
+{
+  "paired_seed_ratios": [
+    {
+      "seed": 1,
+      "BB_median_seconds": 0.049550791998626664,
+      "p_median_seconds": 0.01325300001190044,
+      "BB_over_p": 3.7388358827535555
+    },
+    {
+      "seed": 11,
+      "BB_median_seconds": 0.07438424999418203,
+      "p_median_seconds": 0.013292832998558879,
+      "BB_over_p": 5.595816181715837
+    },
+    {
+      "seed": 12,
+      "BB_median_seconds": 0.08161104199825786,
+      "p_median_seconds": 0.013323416991624981,
+      "BB_over_p": 6.125383754749857
+    },
+    {
+      "seed": 13,
+      "BB_median_seconds": 0.11602050000510644,
+      "p_median_seconds": 0.013273874996230006,
+      "BB_over_p": 8.740514735754113
+    },
+    {
+      "seed": 14,
+      "BB_median_seconds": 0.09349579201079905,
+      "p_median_seconds": 0.013241166991065256,
+      "BB_over_p": 7.060993345517598
+    }
+  ],
+  "geometric_mean_BB_over_p": 6.0204255637571595,
+  "requires_all_BB_and_p_repetitions_certified": true
+}

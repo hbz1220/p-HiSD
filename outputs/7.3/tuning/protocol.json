@@ -1,0 +1,383 @@
+{
+  "problem": {
+    "d": 1000,
+    "index": 5,
+    "s_neg": -50000.0,
+    "s_pos": 1.0,
+    "initial_radius": 0.1,
+    "metric": "once_frozen_block_jacobi",
+    "block_size": 20,
+    "epsilon_M": 0.01
+  },
+  "seeds": {
+    "historical_and_main": 1,
+    "development": [
+      101,
+      102
+    ],
+    "held_out": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "production": [
+      1,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  "precision": "float64",
+  "threads": 1,
+  "stopping": {
+    "raw_gradient_tolerance": 1e-06,
+    "target_distance_tolerance": 0.01,
+    "index_delta_abs": 1e-08,
+    "index_delta_rel_inf_norm": 1e-08,
+    "state_norm_guard": 100000000.0,
+    "frame_frobenius_norm_guard": 100000000.0
+  },
+  "budgets": {
+    "screen_max_updates": 4000,
+    "screen_max_seconds": 60,
+    "full_max_updates": 400000,
+    "full_max_seconds": 300,
+    "tuning_total_seconds": 7200,
+    "production_total_seconds": 7200
+  },
+  "grids": {
+    "HiSD": {
+      "eta_x": [
+        5e-06,
+        1e-05,
+        1.5000000000000002e-05,
+        1.8e-05,
+        1.9e-05,
+        1.95e-05,
+        1.98e-05,
+        2e-05,
+        2.01e-05,
+        2.05e-05,
+        2.1000000000000002e-05
+      ]
+    },
+    "AHiSD": {
+      "eta_x": [
+        5e-06,
+        1e-05,
+        2e-05,
+        3.0000000000000004e-05,
+        3.5000000000000004e-05,
+        3.8e-05,
+        3.9e-05,
+        3.9500000000000005e-05,
+        3.97e-05,
+        3.9800000000000005e-05,
+        4e-05,
+        4.05e-05
+      ],
+      "momentum": [
+        0,
+        0.8,
+        0.9,
+        0.95,
+        0.97,
+        0.98,
+        0.9802,
+        0.985,
+        0.99
+      ]
+    },
+    "PCHiSD": {
+      "eta_x": [
+        5e-06,
+        1e-05,
+        1.5000000000000002e-05,
+        1.8e-05,
+        1.9e-05,
+        1.95e-05,
+        1.98e-05,
+        2e-05,
+        2.01e-05,
+        2.05e-05,
+        2.1000000000000002e-05
+      ],
+      "eta_v": [
+        1e-06,
+        2.5e-06,
+        5e-06,
+        7.5e-06,
+        1e-05,
+        1.25e-05
+      ],
+      "additional_pairs": [
+        [
+          1.9e-05,
+          1.9e-05
+        ]
+      ]
+    },
+    "BBHiSD": {
+      "eta_x_initial": [
+        5e-06,
+        1e-05,
+        1.9e-05
+      ],
+      "displacement_cap": [
+        0.1,
+        0.5,
+        1.0
+      ]
+    },
+    "pHiSD": {
+      "eta_x": [
+        0.1,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.6
+      ]
+    }
+  },
+  "frame_candidates": {
+    "euclidean_rq": [
+      {
+        "tau_v": 5e-06,
+        "J": 1
+      },
+      {
+        "tau_v": 1e-05,
+        "J": 1
+      },
+      {
+        "tau_v": 1.5e-05,
+        "J": 1
+      },
+      {
+        "tau_v": 1e-05,
+        "J": 3
+      },
+      {
+        "tau_v": 1e-05,
+        "J": 5
+      }
+    ],
+    "preconditioned_rq": [
+      {
+        "tau_v": 1e-05,
+        "J": 5
+      },
+      {
+        "tau_v": 0.2,
+        "J": 1
+      },
+      {
+        "tau_v": 0.4,
+        "J": 1
+      },
+      {
+        "tau_v": 0.8,
+        "J": 1
+      },
+      {
+        "tau_v": 0.4,
+        "J": 3
+      },
+      {
+        "tau_v": 0.4,
+        "J": 5
+      }
+    ],
+    "lobpcg": [
+      {
+        "maxiter": 1,
+        "tol": 1e-08,
+        "internal_preconditioner": null
+      },
+      {
+        "maxiter": 3,
+        "tol": 1e-08,
+        "internal_preconditioner": null
+      }
+    ],
+    "PC": "native_coupled_two_stage_no_orthogonalization"
+  },
+  "anchors": {
+    "HiSD": [
+      {
+        "eta_x": 1.9e-05
+      },
+      {
+        "eta_x": 2e-05
+      }
+    ],
+    "AHiSD": [
+      {
+        "eta_x": 3.9e-05,
+        "momentum": 0.9802
+      }
+    ],
+    "BBHiSD": [
+      {
+        "eta_x_initial": 1e-05,
+        "displacement_cap": 0.5
+      }
+    ],
+    "PCHiSD": [
+      {
+        "eta_x": 1.9e-05,
+        "eta_v": 5e-06
+      },
+      {
+        "eta_x": 2e-05,
+        "eta_v": 5e-06
+      }
+    ],
+    "pHiSD": [
+      {
+        "eta_x": 1.0,
+        "backend": "RQ",
+        "tau_v": 0.4,
+        "J": 1
+      }
+    ]
+  },
+  "local_refinement": {
+    "state_factors": [
+      0.95,
+      1.0,
+      1.05
+    ],
+    "momentum_offsets": [
+      -0.005,
+      0.0,
+      0.005
+    ],
+    "momentum_upper_clip": 0.999,
+    "PC_frame_factors": [
+      0.5,
+      1.0,
+      1.5
+    ],
+    "BB_initial_factors": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "BB_cap_factors": [
+      0.5,
+      1.0,
+      2.0
+    ]
+  },
+  "sensitivity": {
+    "factors": [
+      0.5,
+      0.8,
+      1.0,
+      1.1,
+      1.25,
+      1.5,
+      2.0
+    ],
+    "seed": 101,
+    "mode": "full_budget_unless_diverged",
+    "PC_frame_factors": [
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ]
+  },
+  "boundary_rule": {
+    "minimum_relative_median_improvement": 0.05,
+    "max_expansions": 4,
+    "positive_scalar_factor": 1.5,
+    "momentum_upper_clip": 0.9999
+  },
+  "no_dense_global_operators": true,
+  "scope": "Historical parameter selection and associated development checks for Section 7.3.",
+  "software_versions": {
+    "Python": "3.14.0",
+    "matplotlib": "3.11.1",
+    "numpy": "2.3.4",
+    "scipy": "1.16.2",
+    "threadpoolctl": "3.6.0"
+  },
+  "initial_points": {
+    "seeds": [
+      101,
+      102
+    ],
+    "definition": "x0 = ones(d) + initial_radius * z / norm(z, 2)",
+    "z": "numpy.random.default_rng(seed).standard_normal(d)"
+  },
+  "selection": {
+    "workflow": [
+      "S0: backend and frame screening",
+      "S1: screening on both development seeds",
+      "S2: full-budget evaluation and repeated timing of finalists",
+      "local refinement",
+      "boundary checks",
+      "additional development sensitivity checks"
+    ],
+    "finalist_repetitions_per_seed": 3,
+    "eligibility": "All three full-budget repetitions at both development seeds must be CONVERGED_TARGET.",
+    "objective": "Geometric mean of the two per-seed median total times.",
+    "scope": "Selection among finalists admitted by the recorded staged search; no global optimum claim.",
+    "decision_file": "selected_parameters.json",
+    "screen_budget_interpretation": "SCREEN_BUDGET denotes a truncated screening run, not a full-budget failure.",
+    "candidate_repetition_scope": "Not every screened candidate has three repetitions; use each raw record and the stage decisions.",
+    "additional_sensitivity": "Recorded prelock sensitivity checks were not fed back into parameter selection."
+  },
+  "current_formal_evaluation": {
+    "protocol_file": "../protocol.json",
+    "selected_configs_unchanged": true,
+    "max_updates_per_solve": 2000000,
+    "max_seconds_per_solve": 300,
+    "stopping": {
+      "raw_gradient_tolerance": 1e-06,
+      "target_distance_tolerance": 0.01,
+      "index_delta_abs": 1e-06,
+      "state_norm_guard": 100000000.0,
+      "frame_frobenius_norm_guard": 100000000.0
+    },
+    "relationship": "The selected parameters are reused for the new formal comparison; historical measurements are not overwritten."
+  },
+  "record_counts": {
+    "total": 894,
+    "by_method": {
+      "AHiSD": 483,
+      "BBHiSD": 75,
+      "HiSD": 78,
+      "pHiSD": 82,
+      "PCHiSD": 176
+    },
+    "by_status": {
+      "CONVERGED_TARGET": 361,
+      "SCREEN_BUDGET": 503,
+      "BUDGET_ITER": 14,
+      "DIVERGED_NORM": 15,
+      "FRAME_BREAKDOWN": 1
+    },
+    "by_budget": {
+      "full": 147,
+      "screen": 747
+    },
+    "distinct_candidates_by_method": {
+      "AHiSD": 234,
+      "BBHiSD": 28,
+      "HiSD": 32,
+      "pHiSD": 36,
+      "PCHiSD": 77
+    }
+  }
+}

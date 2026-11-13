@@ -1,5 +1,5 @@
 % Section 7.4: compare four index-1 solvers for a stiff diatomic chain.
-% Save data for Figure 5 and Table 5 to outputs/7.4/; fig.py draws the paper figure.
+% Save data for Figure 4 and Table 5 to outputs/7.4/; fig.py draws the paper figure.
 
 
 clear; close all; clc;
@@ -1341,8 +1341,8 @@ function plot_comparison_four(h1, h2, h3, h4, dt1, dt2, dt3, dt4)
 
     set(gca, 'LooseInset', get(gca, 'TightInset'));
 
-    exportgraphics(gcf, '3.pdf', 'ContentType', 'vector', 'BackgroundColor', 'none');
-    fprintf('\nFigure saved: 3.pdf\n');
+    exportgraphics(gcf, '4.pdf', 'ContentType', 'vector', 'BackgroundColor', 'none');
+    fprintf('\nFigure saved: 4.pdf\n');
 end
 
 function definitions = timing74_definitions()

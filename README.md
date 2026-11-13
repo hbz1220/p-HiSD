@@ -40,8 +40,9 @@ The input bundle
 
 ## Experiments and Paper Correspondence
 
-Figure and table numbers below refer to the revised manuscript. PDF filenames
-retain section-based names: for example, `outputs/7.3/3.pdf` is Figure 3.
+Figure and table numbers below refer to the revised manuscript. Each figure PDF
+is named after its manuscript figure number (`1.pdf` through `6.pdf`), both in
+`outputs/` and in the accompanying `../manuscript/figures/` directory.
 
 | Paper section and code | Experiment | Manuscript figure or table | Main results |
 |---|---|---|---|
@@ -50,10 +51,13 @@ retain section-based names: for example, `outputs/7.3/3.pdf` is Figure 3.
 | [7.3](code/7.3/) | Modified Rosenbrock problem | Figure 3; Tables 3 and 4 | [3.pdf](outputs/7.3/3.pdf), [table3.csv](outputs/7.3/table3.csv), [table4.csv](outputs/7.3/table4.csv) |
 | [7.4](code/7.4/) | Stiff coupled bistable chain | Figure 4; Table 5 | [4.pdf](outputs/7.4/4.pdf), [timing_summary.csv](outputs/7.4/timing_summary.csv) |
 | [7.5.1](code/7.5/7.5.1/) | 2D Lane-Emden-type elliptic equation | Table 6(a), (b) | [fixed_grid_cost_summary.csv](outputs/7.5/7.5.1/fixed_grid_cost_summary.csv), [scalability_summary.csv](outputs/7.5/7.5.1/scalability_summary.csv) |
-| [7.5.2](code/7.5/7.5.2/) | Landau–de Gennes model | Figure 5; Table 7 | [5.2.pdf](outputs/7.5/7.5.2/5.2.pdf), [LDG_results.csv](outputs/7.5/7.5.2/LDG_results.csv), [LDG_summary.json](outputs/7.5/7.5.2/LDG_summary.json) |
+| [7.5.2](code/7.5/7.5.2/) | Landau–de Gennes model | Figure 5; Table 7 | [5.pdf](outputs/7.5/7.5.2/5.pdf), [LDG_results.csv](outputs/7.5/7.5.2/LDG_results.csv), [LDG_summary.json](outputs/7.5/7.5.2/LDG_summary.json) |
 | [7.6](code/7.6/) | Non-convex optimal control problem | Figure 6 | [6.pdf](outputs/7.6/6.pdf), [timing76_summary.csv](outputs/7.6/timing76_summary.csv) |
 
 ## Requirements
+
+See [ENVIRONMENT.txt](ENVIRONMENT.txt) for a standalone environment specification,
+including the software versions, validation platform and per-experiment thread settings.
 
 Section **7.4** uses MATLAB (`run.m`) for computation and Python
 (`fig.py`) for plotting. The other six experiments use Python `run.py` scripts.
@@ -102,15 +106,21 @@ python -m pip install "psutil>=5.9"
 
 ## Running
 
-Run all commands below from the repository root with the Python environment activated.
+The main entry point is `code/run_all.py`. The Python and MATLAB scripts run
+directly and require no separate compilation step. Run all commands below from
+this repository root (`p-HiSD-code/`) with the Python environment activated.
 
 ### A single experiment
 
-For a Python experiment, run its `run.py` directly. For example:
+For a short complete calculation and plotting check, run Section 7.1:
 
 ```bash
 python code/7.1/run.py
 ```
+
+This writes `outputs/7.1/1.pdf`. The reference iteration counts are 691, 13 and 3,
+with endpoint Morse index one for all three methods. Other Python experiments
+can also be run directly through their respective `run.py` scripts.
 
 For Section 7.4, run MATLAB followed by Python (`matlab` must be
 available in the terminal):
@@ -120,7 +130,8 @@ matlab -batch "run('code/7.4/run.m')"
 python code/7.4/fig.py
 ```
 
-With existing MATLAB data, run only `fig.py` to regenerate the figure.
+With the supplied `outputs/7.4/experiment_results.mat`, run only `fig.py` to
+regenerate Figure 4.
 Section 7.2 can rebuild its tables, summary and figure from a complete compatible
 checkpoint set without new solver trajectories:
 
@@ -153,15 +164,25 @@ python code/run_all.py --python python
 | `--dry-run` | Check dependencies, scripts and required inputs without running experiments. |
 | `--matlab PATH` | Select the MATLAB executable. |
 
-Use `python code/run_all.py --help` for all options. MATLAB license availability
+Use `python code/run_all.py --help` for all options. The launcher searches for
+MATLAB automatically; use `--matlab PATH` if necessary. MATLAB license availability
 is checked when MATLAB starts. The launcher stops on a script error; numerical success
 or failure is recorded in each experiment's results.
 
-Reruns can overwrite files in `outputs/`. For a fresh full run, keep the supplied results
+A complete run can be lengthy. Reruns can overwrite files in `outputs/`; use a
+copy of the repository to retain the supplied results unchanged.
+For a fresh full run, keep the supplied results
 separately and start without that directory. Section 7.2 otherwise resumes
 compatible `_checkpoints`; use `--output` with a new directory for a fresh scan.
 
 ## Where to Find the Results
+
+In the combined submission package, the manuscript is compiled separately from
+`../manuscript/phisd.tex`; compilation instructions are in `../manuscript/README_compile.txt`.
+That sibling manuscript directory is supplied in the combined source package,
+separately from this code archive.
+It uses the supplied figure PDFs and can be compiled without running experiments.
+Running the scripts does not automatically replace the figure PDFs in that directory.
 
 Open the PDFs linked above to view figures without running experiments. CSV,
 JSON and JSONL files contain numerical summaries and run records; `.mat` and

@@ -1,5 +1,5 @@
 # Section 7.6: index-1 saddles of the reduced non-convex optimal-control objective.
-# Compare HiSD with three fixed metrics; save Figure 7 and timings to outputs/7.6/.
+# Compare HiSD with three fixed metrics; save Figure 6 and timings to outputs/7.6/.
 
 from functools import wraps
 from pathlib import Path

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Section 7.5.2: Landau-de Gennes dynamics toward the index-1 WORS saddle.
 # Read reference data, the common initial state and settings from LDG_inputs.npz.
-# Save Figure 6, Table 7 data and certification summaries to outputs/7.5/7.5.2/.
+# Save Figure 5, Table 7 data and certification summaries to outputs/7.5/7.5.2/.
 
 from __future__ import annotations
 
@@ -70,8 +70,8 @@ from scipy.sparse import bmat, csc_matrix, diags, eye, kron
 from scipy.sparse.linalg import LinearOperator, eigsh, splu
 
 
-PDF_PATH = OUTPUT_DIR / '5.2.pdf'
-OUTPUT_NAMES = ('5.2.pdf', 'LDG_results.csv', 'LDG_summary.json')
+PDF_PATH = OUTPUT_DIR / '5.pdf'
+OUTPUT_NAMES = ('5.pdf', 'LDG_results.csv', 'LDG_summary.json')
 
 
 def _basis() -> np.ndarray:
@@ -2027,7 +2027,7 @@ def publish_outputs(results, rows, summary):
             stage = Path(staging)
             ready, previous = stage / 'ready', stage / 'previous'
             ready.mkdir()
-            PDF_PATH = ready / '5.2.pdf'
+            PDF_PATH = ready / '5.pdf'
             make_paper_pdf(results)
             table_csv(ready / 'LDG_results.csv', rows)
             write_json(ready / 'LDG_summary.json', _publication_data(summary))

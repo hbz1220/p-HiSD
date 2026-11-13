@@ -165,7 +165,7 @@ def run():
     os.makedirs(out_dir, exist_ok=True)
     fig.savefig(os.path.join(out_dir, '1.pdf'), dpi=300, bbox_inches='tight')
     plt.close(fig)
-    print(f"Figure 2 saved to {out_dir}/1.pdf")
+    print(f"Figure 1 saved to {out_dir}/1.pdf")
 
 
 if __name__ == '__main__':

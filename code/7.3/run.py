@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Section 7.3: compare five index-5 solvers on the modified Rosenbrock energy.
-# Use the fixed configurations below for Figure 4 and Tables 3 and 4.
+# Use the fixed configurations below for Figure 3 and Tables 3 and 4.
 # Save histories, per-run outcomes and summaries to outputs/7.3/.
 
 from __future__ import annotations

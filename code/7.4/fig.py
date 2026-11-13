@@ -1,5 +1,5 @@
 # Section 7.4: read experiment_results.mat produced by run.m.
-# Plot the saved residual histories as Figure 5 in outputs/7.4/4.pdf.
+# Plot the saved residual histories as Figure 4 in outputs/7.4/4.pdf.
 
 
 import os

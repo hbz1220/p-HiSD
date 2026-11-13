@@ -1,0 +1,99 @@
+Execution environment
+=====================
+
+Paper: Computing Saddle Points in Stiff Problems via a Preconditioned
+       High-index Saddle Dynamics Method
+
+This file describes the software requirements and execution settings.
+See README.md for experiment commands, inputs, outputs and the correspondence
+with manuscript figures and tables. Run commands from p-HiSD-code/.
+
+Platform
+--------
+The manuscript reports experiments on an Apple M5 Mac using CPU computation.
+The package was checked on 13 November 2026 on a MacBook Pro with an Apple M5
+(10 CPU cores), 16 GB memory and macOS 27.0.1 (build 26A434).
+These detailed machine specifications describe the package-validation host;
+the software versions below are taken from the supplied experiment records
+and dependency documentation. No GPU or CUDA installation is required.
+
+Software
+--------
+Python         3.13.5
+NumPy          2.4.1
+SciPy          1.17.0
+Matplotlib     3.10.8
+SymPy          1.14.0       Symbolic derivatives in Section 7.2
+threadpoolctl  3.6.0        Thread checks in Sections 7.3 and 7.5.2
+psutil         >=5.9        Required on Linux/Windows for Section 7.5.1
+MATLAB         R2025b Update 3 (25.2.0.3123386), for Section 7.4
+
+Section 7.4 uses core MATLAB numerical routines for computation and Python
+for plotting. A working MATLAB installation and license are required.
+The other six experiments use Python. The scripts run directly and require
+no separate compilation step.
+
+Python installation
+-------------------
+Install Python 3.13 and create a virtual environment. On macOS or Linux:
+
+  python3.13 -m venv .venv
+  source .venv/bin/activate
+
+On Windows (Command Prompt):
+
+  py -3.13 -m venv .venv
+  .venv\Scripts\activate.bat
+
+In the activated environment, install:
+
+  python -m pip install numpy==2.4.1 scipy==1.17.0 matplotlib==3.10.8 sympy==1.14.0 threadpoolctl==3.6.0
+
+For Section 7.5.1 on Linux or Windows, also install:
+
+  python -m pip install "psutil>=5.9"
+
+On macOS, Section 7.5.1 uses native resource-monitoring interfaces and does
+not require psutil. The virtual environment and MATLAB installation are not
+part of this source package.
+
+Processes and numerical-library threads
+---------------------------------------
+The launcher executes sections sequentially. Individual drivers use these
+settings; there is no single thread count shared by all experiments:
+
+  7.1     No global thread limit is imposed by the driver.
+  7.2     Three worker processes by default (--workers 3), with numerical
+          library threads set to one per process.
+  7.3     Single-thread numerical-library policy; the recorded Apple
+          Accelerate setting is checked by the driver.
+  7.4     Saved MATLAB records report maxNumCompThreads() = 10.
+  7.5.1   Numerical workers configure numerical-library threads to one;
+          resource monitoring also uses separate monitoring processes.
+  7.5.2   Single-thread numerical-library policy, checked by the driver.
+  7.6     The driver retains the inherited thread/backend settings rather
+          than imposing a new global limit.
+
+Thread limits configured by the Python drivers use the applicable
+OMP_NUM_THREADS, OPENBLAS_NUM_THREADS, MKL_NUM_THREADS,
+VECLIB_MAXIMUM_THREADS, NUMEXPR_NUM_THREADS and BLIS_NUM_THREADS variables;
+some drivers also check or configure the active numerical library directly.
+Use the supplied driver defaults when comparing with the saved results.
+Timing and peak memory depend on hardware, library backends and system load.
+
+Environment check
+-----------------
+With the Python environment activated, run:
+
+  python code/run_all.py --python python --dry-run
+
+This checks Python dependencies, entry scripts and the required LdG input
+bundle, and locates MATLAB. It does not run the experiments or check out a
+MATLAB license; license availability is checked when MATLAB starts.
+Use --matlab PATH to specify its executable if it is not found automatically.
+Add --python-only to omit MATLAB Section 7.4 and its dependent plot.
+
+The environment preflight and the complete Section 7.1 calculation/plotting
+check passed during package validation. The other six experiments were not rerun during that packaging check. Detailed recorded settings can be found in
+outputs/7.2/protocol.json, outputs/7.3/protocol.json,
+outputs/7.4/timing74_raw.mat, and outputs/7.5/7.5.2/LDG_summary.json.
